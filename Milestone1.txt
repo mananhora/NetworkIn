@@ -1,0 +1,35 @@
+	CSC 210 : MILESTONE 1
+Team Members: Manan Hora, Nina Bose
+Due Date: Tuesday, October 20th, 2015
+
+1. What is the proposed name for your Web application? (Make your GitHub repository name similar to your project name.)
+	StudyRooms
+
+2. Who is the target audience for your Web application?
+	To begin with, our target audience is the undergraduate students of the University of Rochester. Later, we hope to expand to other college students as well. 
+
+3. What problem is it intended to solve for that audience?
+	Although currently, students at the University of Rochester have information regarding the official prerequisites required for a course, and various resources such as RateMyProfessor.com to try to identify whether a professor’s teaching style matches the student’s learning style, students often find themselves signing up for a class with little concrete knowledge of the inner workings of class. We hope to fix this problem by creating a website that provides more detailed information regarding a class from the students’ perspectives. We also aspire to create a platform that will allow students to easily interact with their peers who are taking the same classes. We believe that this will create a more open and active academic community within the University of Rochester.    
+
+4. How will it meet the minimum project requirements?
+	Create: A student, who must be affiliated with the University of Rochester, must create an account to be active participants of this application. 
+	Read: The student will be able to view other students’ schedules if the other students allow it and comments that other students have made regarding a class. Similarly, they may view other students who are enrolled within a certain class if the other students allow it, in order to form study groups.
+	Update: The student may make comments regarding classes at the University of Rochester given certain criteria (see below) and also update his/her privacy settings.  The student can also update their profile- courses, TA position(s) (If any) etc
+	Delete: The student may deactivate/delete his or her account at any time.
+
+5. Why is your proposed Web application unique or creative beyond simply meeting the minimum requirements?
+	As can be seen from above, the project we are proposing meets the minimum requirements. However, we also plan to add the following features:
+
+Assessing classes*
+Students will be allowed to comment on the inner workings of a class. However, there will be formal criteria they can write about including the following:
+Student suggested prerequisites: What classes the students think are necessary to complete before taking this class. 
+Students’ views of a professor’s teaching style: Whether he/she uses slides, posts those slides, the structure of the class (whether there are mandatory workshops, etc.)
+Student perceived course difficulty level
+Student perceived time commitment
+
+Connect with peers
+Students will be able to connect with other students who are in the same class. If Student A sets his/her information on public, other students in the class may see that Student A is a part of the class. This allows the students to quickly find out who is in their classes.
+Along the same line, students may create study groups with other students who are in the class.
+Students in a study group in this application may interact with each other via real-time chat.
+If Student A sets his/her information on public, other students may view his/her schedule, thus promoting easy sharing of schedules. 
+*Note: In our implementation, we will not screen for inappropriate content. Perhaps we will in a future implementation of the project, or if we finish our other goals early.
