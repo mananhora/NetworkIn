@@ -27,7 +27,7 @@
     });
     $("#registerButton").click(function() {
       $.ajax({
-        url: "users/" + $("name").val(),
+        url: "users/" + $("#name").val(),
         type: "POST",
         dataType: "text",
         data:{name: $("#name").val(), email: $("#email").val(), password: $("password").val()},

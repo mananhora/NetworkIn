@@ -43,13 +43,13 @@ app.post('/users', function (req, res) {
   pg.connect(connString, function(err, client, done) {
     if(err) response.send("Could not connect to DB: " + err);
     client.query('INSERT INTO users (user_id) VALUES ($1)',
-        ['name'],
-        function(err, result) {
-            done();
-            if(err) return response.send(err);
-            response.send('OK');
-    });
-});
+        [myName]);
+    //     function(err, result) {
+    //         done();
+    //         if(err) return response.send(err);
+    //         response.send('OK');
+    // });
+};
 
   // must have a name!
   // if (!myName) {
