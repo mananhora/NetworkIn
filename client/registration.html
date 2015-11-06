@@ -18,13 +18,36 @@
 <body>
 <header>
 
+  <script type="text/javascript">
+  $(document).ready(function() {
+    // define a generic Ajax error handler:
+    // http://api.jquery.com/ajaxerror/
+    $(document).ajaxError(function() {
+      alert("Sorry, there was a problem!");
+    });
+    $("#registerButton").click(function() {
+      $.ajax({
+        url: "users/" + $("name").val(),
+        type: "POST",
+        dataType: "text",
+        data:{name: $("#name").val(), email: $("#email").val(), password: $("password").val()},
+        success: function(data) {
+          console.log("successfully sent data.");
+        },
+      });
+    });
+  });
+
+</script>
+
+
 </header>
 </header>
      <h1>Personal CRM</h1>
      <input id = "name" type="text">Type in your name</input><br>
      <input id = "email" type = "text">Type in your email</input><br>
      <input id = "password" type = "text">Type in your password</input><br>
-     <button onclicl="register()">Register</button>
+     <button id = "registerButton">Register</button>
 
 
      <div style="position: relative; text-align:left">
