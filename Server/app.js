@@ -44,12 +44,9 @@ app.post('/users', function (req, res) {
     if(err) response.send("Could not connect to DB: " + err);
     client.query('INSERT INTO users (user_id) VALUES ($1)',
         [myName]);
-    //     function(err, result) {
-    //         done();
-    //         if(err) return response.send(err);
-    //         response.send('OK');
-    // });
-};
+
+    res.send('OK');
+});
 
   // must have a name!
   // if (!myName) {
@@ -63,7 +60,7 @@ app.post('/users', function (req, res) {
   // otherwise add the user to the database by pushing (appending)
   // postBody to the fakeDatabase list
 
-  res.send('OK');
+
 });
 
 var server = app.listen(3000, function () {
