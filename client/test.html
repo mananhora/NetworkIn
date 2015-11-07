@@ -4,15 +4,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-  alert('hi');
-    $("button").click(function(){
-alert('hello');
+    $("#registerButton").click(function(){
+alert('hello' + $("#name").val() + $("#email").val() + $("#password").val());
         $.ajax({ url: "users/" + $("#name").val(),
               type: "POST",
               dataType: "text",
               data:{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
               success: function(result){
-                alert('Success!');
+                alert('Success!', result);
         }});
     });
 });

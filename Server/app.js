@@ -40,11 +40,15 @@ app.post('/users/*', function (req, res) {
   console.log('In correct method');
   var postBody = req.body;
   var myName = postBody.name;
+  var myEmail = postBody.email;
+  var myPassword = postBody.password;
+
+  console.log(myName);
 
   pg.connect(connString, function(err, client, done) {
     if(err) response.send("Could not connect to DB: " + err);
-    client.query('INSERT INTO users (user_id) VALUES ($1)',
-        [myName]);
+    client.query('INSERT INTO users (name,email,password) VALUES ($1,$2,$3)',
+        [myName,myEmail,myPassword]);
 
     res.send('OK');
 });
