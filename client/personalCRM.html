@@ -4,15 +4,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-    $("#registerButton").click(function(){
-        $.ajax({ url: "register/" 
+    $("#logInButton").click(function(){
+        $.ajax({ url: "register/" + $("#name").val(),
               type: "POST",
               dataType: "text",
-              data:{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
+              data:{email: $("#email").val(), password: $("#password").val()},
               success: function(result){
                 alert('Success! Welcome!', result);
         }});
     });
+    $("#signUpButton").click(function(){
+      window.location.href = "/registration.html";
+    })
 });
 </script>
 </head>
@@ -20,10 +23,12 @@ $(document).ready(function(){
 
 
   <h1>Personal CRM</h1>
-  Type in your name: <input id = "name" type="text" placeholder="e.g. John"/><br>
   Type in your email: <input id = "email" type = "text" placeholder="e.g. john.smith@gmail.com"/><br>
   Type in your password: <input id = "password" type = "password"/><br>
-  <button id = "registerButton">Register</button>
+  <button id = "logInButton">Log In</button>
+
+  <p> Don't have an account? </p>
+  <button id = "signUpButton">Sign up!</button>
 
 </body>
 </html>
