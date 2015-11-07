@@ -13,37 +13,40 @@
   <script src="jquery-1.11.2.min.js"></script>
 
 
-</head>
 
-<body>
-<header>
+
 
   <script type="text/javascript">
   $(document).ready(function() {
+    alert('doc loaded');
     // define a generic Ajax error handler:
     // http://api.jquery.com/ajaxerror/
-    $(document).ajaxError(function() {
-      alert("Sorry, there was a problem!");
-    });
-    $("#registerButton").click(function() {
-      $.ajax({
-        url: "users/" + $("#name").val(),
-        type: "POST",
-        dataType: "text",
-        data:{name: $("#name").val(), email: $("#email").val(), password: $("password").val()},
-        success: function(data) {
-          console.log("successfully sent data.");
-        },
-      });
-    });
+  //   $(document).ajaxError(function() {
+  //     alert("Sorry, there was a problem!");
+  //   });
+  //   $("button").click(function() {
+  //     alert('hello');
+  //     $.ajax({
+  //       url: "users/" + $("#name").val(),
+  //       type: "POST",
+  //       dataType: "text",
+  //       data:{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
+  //       success: function(data) {
+  //         console.log("successfully sent data.");
+  //       },
+  //     });
+  //   });
   });
 
 </script>
-</header>
+
+</head>
+
+<body>
      <h1>Personal CRM</h1>
      <input id = "name" type="text">Type in your name</input><br>
      <input id = "email" type = "text">Type in your email</input><br>
-     <input id = "password" type = "text">Type in your password</input><br>
+     <input id = "password" type = "password">Type in your password</input><br>
      <button id = "registerButton">Register</button>
 
 
@@ -52,7 +55,9 @@
     </div>
 </div>
 <!-- Latest compiled and minified JavaScript -->
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

@@ -15,9 +15,9 @@ var app = express();
 
 
 var pg = require('pg');
-var connectionString = "postgres://postgres:postgres@localhost:5432/personalcrm";
+var connString = "postgres://postgres:postgres@localhost:5432/personalcrm";
 
-var client = new pg.Client(connectionString);
+var client = new pg.Client(connString);
 client.connect();
 
 var bodyParser = require('body-parser');
@@ -36,7 +36,8 @@ app.get('/users/*', function (req, res) {
 
 
 // CREATE a new user
-app.post('/users', function (req, res) {
+app.post('/users/*', function (req, res) {
+  console.log('In correct method');
   var postBody = req.body;
   var myName = postBody.name;
 
