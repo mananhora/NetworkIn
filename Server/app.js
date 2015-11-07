@@ -63,7 +63,9 @@ app.post('/users/*', function(req, res) {
 
     if(moreErr) { response.send("There was an error: " + moreErr); }
 
-    res.send(result);
+    var obj = JSON.parse('{"name": ""}');
+
+    res.send(obj[result]);
 
   });
 
