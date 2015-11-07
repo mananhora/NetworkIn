@@ -5,12 +5,12 @@
 <script>
 $(document).ready(function(){
     $("#registerButton").click(function(){
-        $.ajax({ url: "register/" 
+        $.ajax({ url: "register/"
               type: "POST",
               dataType: "text",
               data:{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
               success: function(result){
-                alert('Success! Welcome!', result);
+                alert('Success! Welcome!'+ result);
         }});
     });
 });

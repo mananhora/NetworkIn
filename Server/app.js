@@ -36,7 +36,7 @@ app.get('/users/*', function (req, res) {
 
 
 // CREATE a new user
-app.post('/users/*', function (req, res) {
+app.post('/register/*', function (req, res) {
   var postBody = req.body;
   var myName = postBody.name;
   var myEmail = postBody.email;
@@ -48,21 +48,24 @@ app.post('/users/*', function (req, res) {
     client.query('INSERT INTO users (name,email,password) VALUES ($1,$2,$3)',
         [myName,myEmail,myPassword]);
 
+
     res.send('OK');
 });
 
-  // must have a name!
-  // if (!myName) {
-  //   res.send('ERROR');
-  //   return; // return early!
-  // }
+});
 
-  // check if user's name is already in database; if so, send an error
-  // client.query("INSERT ")
+app.post('/users/*', function(req, res) {
+  var postBody = req.body;
+  var myEmail = postBody.email;
+  var myPassword = postBody.password;
 
-  // otherwise add the user to the database by pushing (appending)
-  // postBody to the fakeDatabase list
+  client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail,myPassword], function(moreErr, result) {
 
+    if(moreErr) { response.send("There was an error: " + moreErr); }
+
+    res.send(result);
+
+  });
 
 });
 

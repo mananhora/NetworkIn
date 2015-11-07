@@ -5,16 +5,18 @@
 <script>
 $(document).ready(function(){
     $("#logInButton").click(function(){
-        $.ajax({ url: "register/" + $("#name").val(),
+      alert('clicked!');
+        $.ajax({ url: "users/",
               type: "POST",
               dataType: "text",
               data:{email: $("#email").val(), password: $("#password").val()},
               success: function(result){
-                alert('Success! Welcome!', result);
+                alert('Success! Welcome!');
+                alert(result);
         }});
     });
     $("#signUpButton").click(function(){
-      window.location.href = "/registration.html";
+      window.location.href = "/test.html";
     })
 });
 </script>
