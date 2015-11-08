@@ -63,12 +63,14 @@ app.post('/users/*', function(req, res) {
 
     if(moreErr) { response.send("There was an error: " + moreErr); }
     if(result.rows[0].password != myPassword) {
-      console.log("here.");
       res.send("Incorrect password."); }
+    else{
+    // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
-    var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
+    console.log(result.rows[0]);
 
-    res.send(userInformation);
+    res.send(result.rows[0]);
+  }
   // }
   // res.send("Incorrect Password.");
 
