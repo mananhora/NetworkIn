@@ -72,6 +72,7 @@ app.post('/users/*', function(req, res) {
     // console.log(results);
     //console.log(res.json(result.rows[0]));
 res.send(result.rows[0]);
+
   }
   // }
   // res.send("Incorrect Password.");
