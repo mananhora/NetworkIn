@@ -59,13 +59,16 @@ app.post('/users/*', function(req, res) {
   var myEmail = postBody.email;
   var myPassword = postBody.password;
 
-  client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail,myPassword], function(moreErr, result) {
+  client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
     if(moreErr) { response.send("There was an error: " + moreErr); }
+    if(result.rows[0].password !== myPassword) { response.send("Incorrect password."); }
 
-    var obj = JSON.parse('{"name": ""}');
+    var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
-    res.send(obj[result]);
+    res.send(userInformation);
+  // }
+  // res.send("Incorrect Password.");
 
   });
 
