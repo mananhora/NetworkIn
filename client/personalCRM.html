@@ -15,10 +15,11 @@ $(document).ready(function(){
                 alert('Success! Welcome!');
                 alert(result);
                 console.log(result);
+                var name = result["name"];
                 //var name = result.name.val();
 
                 $(".login").empty();
-                $(".login").append("Welcome  "+result);
+                $(".login").append("Welcome  "+result+ "  "+name);
         }});
     });
     $("#signUpButton").click(function(){
