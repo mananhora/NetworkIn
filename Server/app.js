@@ -68,7 +68,7 @@ app.post('/users/*', function(req, res) {
     // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
     console.log(result.rows[0]);
-    var results = json.parse(result);
+    var results = JSON.parse(result);
     console.log(results);
     console.log(res.json(result.rows[0]));
 
