@@ -30,6 +30,9 @@ app.use(express.static('../client'));
 
 app.get('/users/*', function (req, res) {
   console.log('hello');
+  var getBody = req.body;
+  var email = getBody.email;
+  var password = getBody.password;
   res.send('{}');
   // res.render('index', {});
 });
