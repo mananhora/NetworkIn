@@ -16,11 +16,11 @@ $(document).ready(function(){
                 alert(result);
                 console.log(result);
                 var name = result["name"];
-                
+                var myname = result[name];
                 //var name = result.name.val();
 
                 $(".login").empty();
-                $(".login").append("Welcome  "+result+ "  "+name);
+                $(".login").append("Welcome  "+result+ "  "+name+"  "+myname);
         }});
     });
     $("#signUpButton").click(function(){
