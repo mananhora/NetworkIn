@@ -62,7 +62,9 @@ app.post('/users/*', function(req, res) {
   client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
     if(moreErr) { response.send("There was an error: " + moreErr); }
-    if(result.rows[0].password !== myPassword) { response.send("Incorrect password."); }
+    if(result.rows[0].password != myPassword) {
+      console.log("here.");
+      res.send("Incorrect password."); }
 
     var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
