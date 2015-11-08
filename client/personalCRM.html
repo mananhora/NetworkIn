@@ -4,8 +4,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-  console.log("Hello");
     $("#logInButton").click(function(){
+
       alert('clicked!');
         $.ajax({ url: "users/",
               type: "POST",
@@ -16,7 +16,7 @@ $(document).ready(function(){
                 alert(result);
                 var name = result.name;
 
-                // $(".login").empty();
+                $(".login").empty();
                 // $(".login").append("Welcome"+name!)
         }});
     });
@@ -30,14 +30,14 @@ $(document).ready(function(){
 
 
   <h1>Personal CRM</h1>
-  <!-- <div class = "login"> -->
   Type in your email: <input id = "email" type = "text" placeholder="e.g. john.smith@gmail.com"/><br>
   Type in your password: <input id = "password" type = "password"/><br>
   <button id = "logInButton">Log In</button>
+  <div class = "login">
 
   <p> Don't have an account? </p>
   <button id = "signUpButton">Sign up!</button>
-<!-- </div> -->
+</div>
 
 </body>
 </html>
