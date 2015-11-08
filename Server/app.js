@@ -33,6 +33,24 @@ app.get('/users/*', function (req, res) {
   var getBody = req.body;
   var email = getBody.email;
   var password = getBody.password;
+  pg.connect(connectionString, function(err, client, done) {
+
+        var query = client.query("SELECT * FROM users WHERE email='"+email+"' AND password='"+password+"';");
+        query.on('row', function(row) {
+            console.log("sending results");
+
+            for(var i = 0; i<results.length;i=i+1){
+                console.log(results[i].ngoname);
+            }
+            console.log(results);
+            results.push(row);
+        });
+
+  query.on('end', function() {
+            client.end();
+            return res.json(results);
+        });
+      });
   res.send('{}');
   // res.render('index', {});
 });
