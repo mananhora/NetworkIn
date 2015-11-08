@@ -14,10 +14,11 @@ $(document).ready(function(){
               success: function(result){
                 alert('Success! Welcome!');
                 alert(result);
-                var name = result.name;
+                console.log(result);
+                var name = result.name.val();
 
                 $(".login").empty();
-                $(".login").append("Welcome"+name);
+                $(".login").append("Welcome"+name+"  "+result);
         }});
     });
     $("#signUpButton").click(function(){
