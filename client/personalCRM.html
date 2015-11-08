@@ -16,13 +16,13 @@ $(document).ready(function(){
                 alert(result);
                 console.log(result);
                 var name = result.name;
-                var myBody = result.body;
+                //var myBody = result.body;
                 //var myName = myBody.name;
 
                 //var name = result.name.val();
-                console.log(myBody);
+                //console.log(myBody);
                 $(".login").empty();
-                $(".login").append("Welcome  "+result+ "  "+name+"  "+myName);
+                $(".login").append("Welcome  "+result+ "  "+name);
         }});
     });
     $("#signUpButton").click(function(){
