@@ -55,51 +55,28 @@ app.post('/register/*', function (req, res) {
 });
 
 app.post('/users/*', function(req, res) {
-  var results = [];
   var postBody = req.body;
   var myEmail = postBody.email;
   var myPassword = postBody.password;
 
+  client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
-  var query = client.query('SELECT * FROM users WHERE email=($1) and password=($2)', [myEmail],[myPassword]);
-  if(moreErr) { response.send("There was an error: " + moreErr); }
+    if(moreErr) { response.send("There was an error: " + moreErr); }
+    if(result.rows[0].password != myPassword) {
+      res.send("Incorrect password."); }
+    else{
+    // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
-          // Stream results back one row at a time
-          query.on('row', function(row) {
-              var user = JSON.parse(results);
-              for(var i = 0; i<user.length; i++){
-                  console.log(user[i].name);
-              }
+    console.log(result.rows[0]);
+    var results = json.parse(result);
+    console.log(results);
+    console.log(res.json(result.rows[0]));
 
-              results.push(row);
-          });
-          query.on('end', function() {
-            client.end();
-            return res.json(results);
-        });
-
-        // Handle Errors
-        if(err) {
-          console.log(err);
-        }
-
-
-  // client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr) {
-  //
-  //   if(moreErr) { response.send("There was an error: " + moreErr); }
-  //   if(result.rows[0].password != myPassword) {
-  //     res.send("Incorrect password."); }
-  //   else{
-  //   // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
-  //
-  //   console.log(result.rows[0]);
-  //   console.log(res.json(result.rows[0]));
-  //
-  // }
+  }
   // }
   // res.send("Incorrect Password.");
 
-
+  });
 
 });
 
