@@ -68,8 +68,8 @@ app.post('/users/*', function(req, res) {
     // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
     console.log(result.rows[0]);
+    console.log(res.json(result));
 
-    res.send(res.json(result.rows[0]));
   }
   // }
   // res.send("Incorrect Password.");

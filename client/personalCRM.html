@@ -15,12 +15,14 @@ $(document).ready(function(){
                 alert('Success! Welcome!');
                 alert(result);
                 console.log(result);
-                var name = result["name"];
-                var myname = result[name];
+                var name = result.name;
+                var myBody = result.body;
+                var myName = myBody.name;
+
                 //var name = result.name.val();
 
                 $(".login").empty();
-                $(".login").append("Welcome  "+result+ "  "+name+"  "+myname);
+                $(".login").append("Welcome  "+result+ "  "+name+"  "+myName);
         }});
     });
     $("#signUpButton").click(function(){
