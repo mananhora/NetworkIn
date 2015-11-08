@@ -67,10 +67,10 @@ app.post('/users/*', function(req, res) {
     else{
     // var userInformation = [result.rows[0].name, result.rows[0].password, result.rows[0].email];
 
-    console.log(result.rows[0]);
+    //console.log(result.rows[0]);
     var results = JSON.parse(result);
     console.log(results);
-    console.log(res.json(result.rows[0]));
+    //console.log(res.json(result.rows[0]));
 
   }
   // }
