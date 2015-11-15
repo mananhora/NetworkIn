@@ -4,6 +4,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
+
     $("#logInButton").click(function(){
 
       alert('clicked!');
@@ -19,15 +20,49 @@ $(document).ready(function(){
                 var name = results.name;
                 console.log(results);
                 console.log(name);
-                //var myBody = result.body;
-                //var myName = myBody.name;
+                var myBody = result.body;
+                var myName = myBody.name;
 
-                //var name = result.name.val();
-                //console.log(myBody);
+                var name = result.name.val();
+                console.log(myBody);
                 $(".login").empty();
-                $(".login").append("Welcome  "+result+ "  "+name);
-        }});
+               $(".login").append("Welcome  "+result+ "  "+name);
+
+               //Show options to change name..
+                $("#changeNameButton").show();
+                $("#updateName").show();
+        //}
+    //  });
     });
+
+
+//UPDATE NAME
+    $("#changeNameButton").click(function(){
+      var newName = $("updateName").val();
+
+      //AJAX CALLL
+      $.ajax({ url: "users/",
+            type: "POST",
+            dataType: "text",
+            data:{name: newName},
+            success: function(result){
+              alert('Success! Welcome!');
+              alert(result);
+              console.log(result);
+              var results = JSON.parse(result);
+              var name = results.name;
+              console.log(results);
+              console.log(name);
+              var myBody = result.body;
+              var myName = myBody.name;
+              var name = result.name.val();
+              console.log(myBody);
+             $(".login").append("Welcome  "+result+ "  "+name);
+            }
+    });
+  });
+
+
     $("#signUpButton").click(function(){
       window.location.href = "/test.html";
     })
@@ -43,7 +78,9 @@ $(document).ready(function(){
   Type in your password: <input id = "password" type = "password"/><br>
 
   <button id = "logInButton">Log In</button>
-
+  <!--{document.getElementById("p2").style.display="none";}!-->
+<button id = "changeNameButton" style="display:none">Change Name</button>
+<input id = "updateName" style="display:none" placeholder="type name..">
   <p> Don't have an account? </p>
   <button id = "signUpButton">Sign up!</button>
 </div>
