@@ -40,8 +40,8 @@ $(document).ready(function(){
     $("#changeNameButton").click(function(){
       var newName = $("updateName").val();
 
-      //AJAX CALLL
-      $.ajax({ url: "users/",
+      //AJAX CALL
+      $.ajax({ url: "users/updateName",
             type: "POST",
             dataType: "text",
             data:{name: newName},
