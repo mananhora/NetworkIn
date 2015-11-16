@@ -44,7 +44,7 @@ $(document).ready(function(){
       $.ajax({ url: "users/updateName",
             type: "POST",
             dataType: "text",
-            data:{name: newName},
+            data:{name: newName, email: $("#email").val(), password: $("#password").val()},
             success: function(result){
               alert('Success! Welcome!');
               alert(result);

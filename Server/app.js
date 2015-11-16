@@ -64,6 +64,8 @@ app.post('/register/*', function(req, res) {
 
 });
 
+
+//Route for login..
 app.post('/users/*', function(req, res) {
   var postBody = req.body;
   var myEmail = postBody.email;
@@ -90,8 +92,30 @@ app.post('/users/*', function(req, res) {
 });
 
 
+//route to Update Name
 app.post('/users/updateName', function(req, res){
+  var myEmail = postBody.email;
+  var myPassword = postBody.password;
+  client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
+    if (moreErr) {
+      response.send("Oops! Something went wrong. Please try again.");
+    } else if (result.rows[0].exists) {
+      client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
+        if (moreErr) {
+          response.send("There was an error: " + moreErr);
+        }
+        if (result.rows[0].password != myPassword) {
+          res.send("Incorrect password.");
+        } else {
+          client.query('');//write query to update the name of the user..
+          res.send(result.rows[0]);
+        }
+      });
+    } else {
+      res.send("Invalid email. Please try again.")
+    }
+  });
 
 });
 
