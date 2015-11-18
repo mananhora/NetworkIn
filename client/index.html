@@ -3,87 +3,89 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
+var name;
+var myEmail;
+var myPassword;
+
 $(document).ready(function(){
 
-    $("#logInButton").click(function(){
+  $("#loggedIn").hide();
 
-      alert('clicked!');
-        $.ajax({ url: "users/",
+//LOGIN
+    $("#logInButton").click(function(){
+      var useremail= $("#email").val();
+      var userpassword = $("#password").val();
+        $.ajax({ url: "users/login",
               type: "POST",
               dataType: "text",
+
               data:{email: $("#email").val(), password: $("#password").val()},
               success: function(result){
                 alert('Success! Welcome!');
-                alert(result);
                 console.log(result);
                 var results = JSON.parse(result);
-                var name = results.name;
-                console.log(results);
-                console.log(name);
-                var myBody = result.body;
-                var myName = myBody.name;
+                var uname = results.name;
+                name = uname;
 
-                var name = result.name.val();
-                console.log(myBody);
-                $(".login").empty();
-               $(".login").append("Welcome  "+result+ "  "+name);
+                myEmail = useremail;
+                myPassword = userpassword;
 
-               //Show options to change name..
-                $("#changeNameButton").show();
-                $("#updateName").show();
-        //}
-    //  });
-    });
+                $("#loggedIn").show();
+                $("#loginName").text(name);
+                $("#login").hide();
 
+                }
+
+              });
+            });
 
 //UPDATE NAME
     $("#changeNameButton").click(function(){
-      var newName = $("updateName").val();
+      var newName = $("#updateName").val();
 
-      //AJAX CALL
+      //Ajax call
       $.ajax({ url: "users/updateName",
             type: "POST",
             dataType: "text",
-            data:{name: newName, email: $("#email").val(), password: $("#password").val()},
+            data:{name: newName, email: myEmail, password: myPassword },
             success: function(result){
-              alert('Success! Welcome!');
-              alert(result);
-              console.log(result);
-              var results = JSON.parse(result);
-              var name = results.name;
-              console.log(results);
-              console.log(name);
-              var myBody = result.body;
-              var myName = myBody.name;
-              var name = result.name.val();
-              console.log(myBody);
-             $(".login").append("Welcome  "+result+ "  "+name);
+              alert('Success! Welcome!'+result);
+              name = result;
+              $("#loginName").text(name);
             }
-    });
-  });
+          });
+        });
 
-
+//SIGN UP BUTTON
     $("#signUpButton").click(function(){
-      window.location.href = "/test.html";
+      window.location.href = "/registration.html";
     })
 });
+
+
 </script>
 </head>
 <body>
 
 
-  <h1>Personal CRM</h1>
-  <div class = "login">
+<h1>Personal CRM</h1>
+
+<!--DISPLAY WHEN LOGGED IN-->
+<div id="loggedIn">
+  <p id="loginName"></p>
+  <button id = "changeNameButton">Change Name</button>
+  <input id = "updateName"  placeholder="type name..">
+</div>
+
+<!--DISPLAY WHEN NOT LOGGED IN-->
+<div id = "login">
   Type in your email: <input id = "email" type = "text" placeholder="e.g. john.smith@gmail.com"/><br>
   Type in your password: <input id = "password" type = "password"/><br>
-
-  <button id = "logInButton">Log In</button>
-  <!--{document.getElementById("p2").style.display="none";}!-->
-<button id = "changeNameButton" style="display:none">Change Name</button>
-<input id = "updateName" style="display:none" placeholder="type name..">
   <p> Don't have an account? </p>
   <button id = "signUpButton">Sign up!</button>
+  <button id = "logInButton">Log In</button>
 </div>
+
 
 </body>
 </html>

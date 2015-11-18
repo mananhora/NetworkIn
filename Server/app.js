@@ -7,16 +7,14 @@
 /** TODO: UPDATE DESCRIPTION OF FILE
  */
 
+
 // Code to import required pakages acquired from Philip Guo's
 // University of Rochester CSC 210 Fall 2015 GitHub repository:
 // https://github.com/pgbovine/csc210-fall-2015/blob/master/www/lectures-11-and-12/server.js
 var express = require('express');
 var app = express();
-
-
 var pg = require('pg');
 var connString = "postgres://postgres:postgres@localhost:5432/personalcrm";
-
 var client = new pg.Client(connString);
 client.connect();
 
@@ -33,11 +31,10 @@ app.use(express.static('../client'));
 app.get('/users/*', function(req, res) {
   console.log('hello');
   res.send('{}');
-  // res.render('index', {});
 });
 
 
-// CREATE a new user
+//REGISTER NEW USER
 app.post('/register/*', function(req, res) {
   var postBody = req.body;
   var myName = postBody.name;
@@ -49,7 +46,7 @@ app.post('/register/*', function(req, res) {
     if (err) response.send("Could not connect to DB: " + err);
     client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
       if (moreErr) {
-        response.send("Oops! Something went wrong. Please try again.");
+        res.send("Oops! Something went wrong. Please try again.");
       } else if (!result.rows[0].exists) {
         client.query('INSERT INTO users (name,email,password) VALUES ($1,$2,$3)', [myName, myEmail, myPassword]);
 
@@ -65,8 +62,8 @@ app.post('/register/*', function(req, res) {
 });
 
 
-//Route for login..
-app.post('/users/*', function(req, res) {
+//LOGIN USER
+app.post('/users/login', function(req, res) {
   var postBody = req.body;
   var myEmail = postBody.email;
   var myPassword = postBody.password;
@@ -92,32 +89,34 @@ app.post('/users/*', function(req, res) {
 });
 
 
-//route to Update Name
+//UPDATE NAME
 app.post('/users/updateName', function(req, res){
+  console.log("UPDATING NAME");
+
+  var postBody = req.body;
+  var myName = postBody.name;
   var myEmail = postBody.email;
   var myPassword = postBody.password;
-  client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
+
+
+  client.query('UPDATE users SET name=($1) WHERE email=($2) AND password = ($3)', [myName, myEmail, myPassword], function(moreErr, result){
     if (moreErr) {
-      response.send("Oops! Something went wrong. Please try again.");
-    } else if (result.rows[0].exists) {
-      client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
-
-        if (moreErr) {
-          response.send("There was an error: " + moreErr);
-        }
-        if (result.rows[0].password != myPassword) {
-          res.send("Incorrect password.");
-        } else {
-          client.query('');//write query to update the name of the user..
-          res.send(result.rows[0]);
-        }
-      });
-    } else {
-      res.send("Invalid email. Please try again.")
+      res.send("There was an error: " + moreErr);
     }
+    else{
+      client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail, myPassword], function(err, result) {
+          if(err) {
+            return console.error('error running query', err);
+          }
+          else{
+            res.send(result.rows[0].name);
+          }
+        });
+      }
   });
-
 });
+
+
 
 var server = app.listen(3000, function() {
   var port = server.address().port;
