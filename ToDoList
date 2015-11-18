@@ -3,7 +3,7 @@ Log in and see an on-screen indicator that they are logged in.
 Remain logged in even after closing their browser and re-opening it, assuming cookies are enabled. Hint: use cookies with expires and/or max-age tags. You can also use localStorage.
 
 MANAN
-Do something CRUD-related when they are logged in. This can be pretty much anything non-trivial; we just want you to make some forward progress on your project's functionality. 
+Do something CRUD-related when they are logged in. This can be pretty much anything non-trivial; we just want you to make some forward progress on your project's functionality. -DONE
 
 
 1)Meet with Annie by Friday, Nov 20

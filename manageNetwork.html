@@ -2,7 +2,6 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src = "js/backend.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
@@ -12,56 +11,30 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 <script>
-
+var name;
+var myEmail;
+var myPassword;
 
 $(document).ready(function(){
 
   $("#loggedIn").hide();
 
-//LOGIN
-    // $("#logInButton").click(function(){
-    //   var useremail= $("#email").val();
-    //   var userpassword = $("#password").val();
-    //     $.ajax({ url: "users/login",
-    //           type: "POST",
-    //           dataType: "text",
-    //
-    //           data:{email: $("#email").val(), password: $("#password").val()},
-    //           success: function(result){
-    //             alert('Success! Welcome!');
-    //             console.log(result);
-    //             var results = JSON.parse(result);
-    //             var uname = results.name;
-    //             name = uname;
-    //
-    //             myEmail = useremail;
-    //             myPassword = userpassword;
-    //
-    //             $("#loggedIn").show();
-    //             $("#loginName").text(name);
-    //             $("#login").hide();
-    //
-    //             }
-    //
-    //           });
-    //         });
-
 //UPDATE NAME
-    // $("#changeNameButton").click(function(){
-    //   var newName = $("#updateName").val();
-    //
-    //   //Ajax call
-    //   $.ajax({ url: "users/updateName",
-    //         type: "POST",
-    //         dataType: "text",
-    //         data:{name: newName, email: myEmail, password: myPassword },
-    //         success: function(result){
-    //           alert('Success! Welcome!'+result);
-    //           name = result;
-    //           $("#loginName").text(name);
-    //         }
-    //       });
-    //     });
+    $("#changeNameButton").click(function(){
+      var newName = $("#updateName").val();
+
+      //Ajax call
+      $.ajax({ url: "users/updateName",
+            type: "POST",
+            dataType: "text",
+            data:{name: newName, email: myEmail, password: myPassword },
+            success: function(result){
+              alert('Success! Welcome!'+result);
+              name = result;
+              $("#loginName").text(name);
+            }
+          });
+        });
 
 //SIGN UP BUTTON
     $("#signUpButton").click(function(){
@@ -82,11 +55,6 @@ $(document).ready(function(){
   <p id="loginName"></p>
   <button id = "changeNameButton">Change Name</button>
   <input id = "updateName"  placeholder="type name..">
-  <br>
-  <a href = "manageNetwork.html"> Manage Connections </a><br>
-  <a href = "visualizeNetwork.html"> View Your Network </a><br>
-  <a href = "settings.html"> Settings </a>
-
 </div>
 
 <!--DISPLAY WHEN NOT LOGGED IN-->
