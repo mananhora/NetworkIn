@@ -39,10 +39,9 @@ $(document).ready(function(){
 
     function persistLogin() {
         var myCookie = getCookie("user");
-
         if (myCookie == null) {
             // do cookie doesn't exist stuff;
-            cosole.log("DNE");
+            console.log("DNE");
             $("#loggedIn").hide();
             $("#login").show();
         }
@@ -54,6 +53,7 @@ $(document).ready(function(){
             $("#login").hide();
         }
     }
+
   persistLogin();
 //LOGIN
     // $("#logInButton").click(function(){
@@ -122,7 +122,7 @@ $(document).ready(function(){
   <br>
   <a href = "manageNetwork.html"> Manage Connections </a><br>
   <a href = "visualizeNetwork.html"> View Your Network </a><br>
-  <a href = "settings.html"> Settings </a>
+  <a href = "settings.html"> Settings </a><br>
   <button id = "logOutButton">Log Out</button>
 
 </div>
