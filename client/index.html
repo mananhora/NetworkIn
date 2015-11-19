@@ -18,6 +18,43 @@ $(document).ready(function(){
 
   $("#loggedIn").hide();
 
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        }
+        else
+        {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+            end = dc.length;
+            }
+        }
+        return unescape(dc.substring(begin + prefix.length, end));
+    }
+
+    function persistLogin() {
+        var myCookie = getCookie("user");
+
+        if (myCookie == null) {
+            // do cookie doesn't exist stuff;
+            cosole.log("DNE");
+            $("#loggedIn").hide();
+            $("#login").show();
+        }
+        else {
+            // do cookie exists stuff
+            var nameText = getCookie("user")
+            $("#loginName").text(nameText);
+            $("#loggedIn").show();
+            $("#login").hide();
+        }
+    }
+  persistLogin();
 //LOGIN
     // $("#logInButton").click(function(){
     //   var useremail= $("#email").val();
@@ -81,11 +118,12 @@ $(document).ready(function(){
 <div id="loggedIn">
   <p id="loginName"></p>
   <button id = "changeNameButton">Change Name</button>
-  <input id = "updateName"  placeholder="type name..">
+  <input id = "updateName"  placeholder="type name...">
   <br>
   <a href = "manageNetwork.html"> Manage Connections </a><br>
   <a href = "visualizeNetwork.html"> View Your Network </a><br>
   <a href = "settings.html"> Settings </a>
+  <button id = "logOutButton">Log Out</button>
 
 </div>
 

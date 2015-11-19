@@ -19,7 +19,6 @@ $(document).ready(function() {
         password: $("#password").val()
       },
       success: function(result) {
-        alert('Success! Welcome!');
         console.log(result);
         var results = JSON.parse(result);
         var uname = results.name;
@@ -74,6 +73,52 @@ $(document).ready(function() {
         alert('Success! Welcome!' + result);
       }
     });
+  });
+
+  function getCookie(name) {
+      var dc = document.cookie;
+      var prefix = name + "=";
+      var begin = dc.indexOf("; " + prefix);
+      if (begin == -1) {
+          begin = dc.indexOf(prefix);
+          if (begin != 0) return null;
+      }
+      else
+      {
+          begin += 2;
+          var end = document.cookie.indexOf(";", begin);
+          if (end == -1) {
+          end = dc.length;
+          }
+      }
+      return unescape(dc.substring(begin + prefix.length, end));
+  }
+
+  function persistLogin() {
+      var myCookie = getCookie("user");
+
+      if (myCookie == null) {
+          // do cookie doesn't exist stuff;
+          cosole.log("DNE");
+          $("#loggedIn").hide();
+          $("#login").show();
+      }
+      else {
+          // do cookie exists stuff
+          var nameText = getCookie("user")
+          console.log("nameText");
+          $("#loginName").text(nameText);
+          $("#loggedIn").show();
+          $("#login").hide();
+          console.log("Cookie val? : ", getCookie("user"));
+          $("loginName").text(getCookie("user")); // = getCookie("user");
+      }
+  }
+
+  //LOG OUT
+  $("#logOutButton").click(function() {
+    console.log("Logging out.");
+
   });
 
 });
