@@ -123,6 +123,47 @@ app.post('/users/updateName', function(req, res){
 
 
 
+
+
+// app.post('/addMember', function(req, res){
+//   var postBody = req.body;
+//   var membername = postBody.membername;
+//   var memberemail = postBody.memberemail;
+//   var myEmail = postBody.useremail;
+//   var myPassword = postBody.userpassword;
+//   var user = client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND password=($2))', [myEmail, myPassword], function(moreErr, result) {
+//     if (moreErr) {
+//       response.send("There was an error: " + moreErr);
+//     }
+//     else{
+//       return result.rows[0];
+//     }
+// });
+
+
+//ADD MEMBER TO NETWORK
+app.post('/addMember', function(req, res){
+  var postBody = req.body;
+  var membername = postBody.membername;
+  var memberemail = postBody.memberemail;
+  var myEmail = postBody.useremail;
+  var myPassword = postBody.userpassword;
+  var user = client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND password=($2))', [myEmail, myPassword], function(moreErr, result) {
+    if (moreErr) {
+      response.send("There was an error: " + moreErr);
+    }
+    else{
+      return result.rows[0];
+    }
+});
+//var userID = user.UserID;
+//console.log(userID);
+console.log("fdf");
+  client.query('INSERT INTO connections (membername, userid, memberid) VALUES ($1, 8, 2)', [membername]);
+  console.log("hehllo");
+
+});
+
 var server = app.listen(3000, function() {
   var port = server.address().port;
   console.log('Server started at http://localhost:%s/', port);

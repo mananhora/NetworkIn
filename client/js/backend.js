@@ -74,7 +74,6 @@ $(document).ready(function() {
       }
     });
   });
-
   //LOG OUT
   $("#logOutButton").click(function() {
     console.log("Logging out.");
@@ -85,4 +84,21 @@ $(document).ready(function() {
     document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location = "index.html";
   }
+=======
+
+  //ADD Member
+  $("#addMember").click(function(){
+    console.log("ajax call add member");
+    $.ajax({
+      url: "addMember/",
+      type: "POST",
+      dataType: "text",
+      data: {
+        useremail:myEmail,
+        userpassword: myPassword,
+        membername: $("#membername").val(),
+        memberemail: $("#memberemail").val(),
+      },
+  });
+});
 });
