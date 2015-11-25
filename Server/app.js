@@ -149,7 +149,7 @@ app.post('/addMember', function(req, res){
   var myEmail = postBody.useremail;
   var myPassword = postBody.userpassword;
 
-  var userid=0;
+  var userid = 0;
   client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail, myPassword], function(moreErr, result) {
     if (moreErr) {
       response.send("There was an error: " + moreErr);
@@ -161,12 +161,10 @@ app.post('/addMember', function(req, res){
       userid = result.rows[0].UserID;
       console.log("userid= "+userid);
 
-        client.query('INSERT INTO connections (membername, userid) VALUES ($1, $2)', [membername, userid]);
+        client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
         console.log("hehllo");
 
       }});
-
-
 
 });
 //var userID = user.UserID;
