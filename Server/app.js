@@ -82,7 +82,9 @@ app.post('/users/login', function(req, res) {
         if (result.rows[0].password != myPassword) {
           res.send("Incorrect password.");
         } else {
-          res.cookie('user', result.rows[0].userid, { httpOnly: false });
+          res.cookie('user', result.rows[0].userid, {
+            httpOnly: false
+          });
           // console.log("InAPPMyCookie: ", res.cookie);
           res.send(result.rows[0]);
         }
@@ -103,10 +105,9 @@ app.post('/users/getUser', function(req, res) {
 
   console.log("GetUser: UserId == " + userId);
   client.query('SELECT * FROM users WHERE userid=($1)', [userId], function(err, result) {
-    if(err) {
+    if (err) {
       return console.error("error in getUser", err);
-    }
-    else {
+    } else {
       res.send(result.rows[0].name);
     }
   })
@@ -114,7 +115,7 @@ app.post('/users/getUser', function(req, res) {
 
 
 //UPDATE NAME
-app.post('/users/updateName', function(req, res){
+app.post('/users/updateName', function(req, res) {
   console.log("UPDATING NAME");
 
   var postBody = req.body;
@@ -122,75 +123,53 @@ app.post('/users/updateName', function(req, res){
   var myUserId = postBody.user;
 
 
-  client.query('UPDATE users SET name=($1) WHERE userid=($2)', [myName, myUserId], function(moreErr, result){
+  client.query('UPDATE users SET name=($1) WHERE userid=($2)', [myName, myUserId], function(moreErr, result) {
     if (moreErr) {
       res.send("There was an error: " + moreErr);
-    }
-    else{
+    } else {
       client.query('SELECT * FROM users WHERE userid=($1)', [myUserId], function(err, result) {
-          if(err) {
-            return console.error('error running query', err);
-          }
-          else{
-            res.send(result.rows[0].name);
-          }
-        });
-      }
+        if (err) {
+          return console.error('error running query', err);
+        } else {
+          res.send(result.rows[0].name);
+        }
+      });
+    }
   });
 });
 
 
 //ADD MEMBER TO NETWORK
-app.post('/addMember', function(req, res){
+app.post('/addMember', function(req, res) {
   var postBody = req.body;
   var membername = postBody.membername;
   var memberemail = postBody.memberemail;
-  var myEmail = postBody.useremail;
-  var myPassword = postBody.userpassword;
+  var userid = postBody.user;
 
-  var userid = 0;
-  client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail, myPassword], function(moreErr, result) {
-    if (moreErr) {
-      response.send("There was an error: " + moreErr);
-    }
-    else{
-      console.log("result");
-      //console.log(result);
-      console.log(result.rows[0].userid);
-      userid = result.rows[0].userid;
-      console.log("userid= "+userid);
 
-        client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
-        console.log("hehllo");
+  client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
+  console.log("hehllo");
 
-      }});
+
 
 });
 
 
 //GET ALL MEMBERS FROM NETWORK
-app.post('/getMembers', function(req, res){
+app.post('/getMembers', function(req, res) {
 
-  var email = req.body.useremail;
-  var password = req.body.userpassword;
-  var userid = 0;
-  client.query('SELECT * FROM users WHERE email = ($1) AND password=($2)', [email, password], function(err, result){
-    if(err){
-      res.send("There was an error  "+err);
-    }
-    else{
-      userid = result.rows[0].userid;
-      client.query('SELECT * FROM connections WHERE userid = ($1)', [userid], function(moreErr, result2){
-        if(moreErr){
-          res.send("THEre was an error "+moreErr);
-        }
-        else{
+
+  var userid = req.body.user;
+        client.query('SELECT * FROM connections WHERE userid = ($1)', [userid], function(moreErr, result2) {
+        if (moreErr) {
+          res.send("THEre was an error " + moreErr);
+        } else {
           res.send(result2.rows);
         }
 
-      });
 
-    }
+
+
   });
 
 });

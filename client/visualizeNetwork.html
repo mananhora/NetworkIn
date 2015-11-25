@@ -18,17 +18,19 @@
 
 <title> Your Network </title>
 
+<script src = "js/backend.js"></script>
+
 <script>
 $(document).ready(function() {
-var list =[];
+  var myUserId = getCookie("user");
+  var list =[];
   $.ajax({
     url: "getMembers",
     type: "POST",
     dataType: "text",
 
     data: {
-      useremail:"manan@manan.com",
-      userpassword: "mananan",
+      user: myUserId
     },
     success: function(result) {
       list = result;

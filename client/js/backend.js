@@ -38,6 +38,7 @@ $(document).ready(function() {
   //UPDATE NAME
   $("#changeNameButton").click(function() {
     var newName = $("#updateName").val();
+    var myUserId = getCookie("user");
 
     //Ajax call
     $.ajax({
@@ -46,8 +47,7 @@ $(document).ready(function() {
       dataType: "text",
       data: {
         name: newName,
-        email: myEmail,
-        password: myPassword
+        user: myUserId
       },
       success: function(result) {
         alert('Success! Welcome!' + result);
@@ -135,6 +135,7 @@ $(document).ready(function() {
 
   //ADD Member
   $("#addMember").click(function() {
+    var myUserId = getCookie("user");
     console.log(myEmail);
     console.log(myPassword);
     console.log("ajax call add member");
@@ -143,8 +144,7 @@ $(document).ready(function() {
       type: "POST",
       dataType: "text",
       data: {
-        useremail: "manan@manan.com",
-        userpassword: "mananan",
+        user: myUserId,
         membername: $("#membername").val(),
         memberemail: $("#memberemail").val(),
       },
