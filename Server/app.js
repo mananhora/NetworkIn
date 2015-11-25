@@ -94,6 +94,7 @@ app.post('/users/login', function(req, res) {
 });
 
 
+//GET NAME
 app.post('/users/getUser', function(req, res) {
   console.log("Getting User.");
 
@@ -101,16 +102,6 @@ app.post('/users/getUser', function(req, res) {
   var userId = postBody.user;
 
   console.log("GetUser: UserId == " + userId);
-
-  // client.query('SELECT * FROM users WHERE name=($1)', ['nName'], function(err, result) {
-  //   if(err) {
-  //     return console.error("STILL AN ERROR");
-  //   }
-  //   else {
-  //     return console.log(result.rows[0]);
-  //   }
-  // })
-
   client.query('SELECT * FROM users WHERE userid=($1)', [userId], function(err, result) {
     if(err) {
       return console.error("error in getUser", err);
