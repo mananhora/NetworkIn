@@ -144,10 +144,12 @@ app.post('/addMember', function(req, res) {
   var postBody = req.body;
   var membername = postBody.membername;
   var memberemail = postBody.memberemail;
+  var tag1 = postBody.tag1;
+  var tag2 = postBody.tag2;
   var userid = postBody.user;
 
 
-  client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
+  client.query('INSERT INTO connections (membername, memberemail, userid, tag1, tag2) VALUES ($1, $2, $3, $4, $5)', [membername, memberemail, userid, tag1, tag2]);
   console.log("hehllo");
 
 

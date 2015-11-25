@@ -2,6 +2,24 @@ var name;
 var myEmail;
 var myPassword;
 
+// GET COOKIE
+function getCookie(name) {
+  var dc = document.cookie;
+  var prefix = name + "=";
+  var begin = dc.indexOf("; " + prefix);
+  if (begin == -1) {
+    begin = dc.indexOf(prefix);
+    if (begin != 0) return null;
+  } else {
+    begin += 2;
+    var end = document.cookie.indexOf(";", begin);
+    if (end == -1) {
+      end = dc.length;
+    }
+  }
+  return unescape(dc.substring(begin + prefix.length, end));
+}
+
 
 $(document).ready(function() {
   persistLogin();
@@ -115,27 +133,13 @@ $(document).ready(function() {
   }
 
 
-  // GET COOKIE
-  function getCookie(name) {
-    var dc = document.cookie;
-    var prefix = name + "=";
-    var begin = dc.indexOf("; " + prefix);
-    if (begin == -1) {
-      begin = dc.indexOf(prefix);
-      if (begin != 0) return null;
-    } else {
-      begin += 2;
-      var end = document.cookie.indexOf(";", begin);
-      if (end == -1) {
-        end = dc.length;
-      }
-    }
-    return unescape(dc.substring(begin + prefix.length, end));
-  }
+
 
   //ADD Member
   $("#addMember").click(function() {
     var myUserId = getCookie("user");
+    var tag1 = $("#tag1").val();
+    var tag2 = $("#tag2").val();
     console.log(myEmail);
     console.log(myPassword);
     console.log("ajax call add member");
@@ -147,6 +151,8 @@ $(document).ready(function() {
         user: myUserId,
         membername: $("#membername").val(),
         memberemail: $("#memberemail").val(),
+        tag1 : tag1,
+        tag2 :tag2
       },
     });
   });
