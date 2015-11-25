@@ -82,7 +82,7 @@ app.post('/users/login', function(req, res) {
         if (result.rows[0].password != myPassword) {
           res.send("Incorrect password.");
         } else {
-          res.cookie('user', result.rows[0].name, { httpOnly: false });
+          res.cookie('user', result.rows[0].userid, { httpOnly: false });
           // console.log("InAPPMyCookie: ", res.cookie);
           res.send(result.rows[0]);
         }
@@ -94,22 +94,49 @@ app.post('/users/login', function(req, res) {
 });
 
 
+app.post('/users/getUser', function(req, res) {
+  console.log("Getting User.");
+
+  var postBody = req.body;
+  var userId = postBody.user;
+
+  console.log("GetUser: UserId == " + userId);
+
+  // client.query('SELECT * FROM users WHERE name=($1)', ['nName'], function(err, result) {
+  //   if(err) {
+  //     return console.error("STILL AN ERROR");
+  //   }
+  //   else {
+  //     return console.log(result.rows[0]);
+  //   }
+  // })
+
+  client.query('SELECT * FROM users WHERE userid=($1)', [userId], function(err, result) {
+    if(err) {
+      return console.error("error in getUser", err);
+    }
+    else {
+      res.send(result.rows[0].name);
+    }
+  })
+});
+
+
 //UPDATE NAME
 app.post('/users/updateName', function(req, res){
   console.log("UPDATING NAME");
 
   var postBody = req.body;
   var myName = postBody.name;
-  var myEmail = postBody.email;
-  var myPassword = postBody.password;
+  var myUserId = postBody.user;
 
 
-  client.query('UPDATE users SET name=($1) WHERE email=($2) AND password = ($3)', [myName, myEmail, myPassword], function(moreErr, result){
+  client.query('UPDATE users SET name=($1) WHERE userid=($2)', [myName, myUserId], function(moreErr, result){
     if (moreErr) {
       res.send("There was an error: " + moreErr);
     }
     else{
-      client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail, myPassword], function(err, result) {
+      client.query('SELECT * FROM users WHERE userid=($1)', [myUserId], function(err, result) {
           if(err) {
             return console.error('error running query', err);
           }
