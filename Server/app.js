@@ -140,25 +140,6 @@ app.post('/users/updateName', function(req, res){
 });
 
 
-
-
-
-// app.post('/addMember', function(req, res){
-//   var postBody = req.body;
-//   var membername = postBody.membername;
-//   var memberemail = postBody.memberemail;
-//   var myEmail = postBody.useremail;
-//   var myPassword = postBody.userpassword;
-//   var user = client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND password=($2))', [myEmail, myPassword], function(moreErr, result) {
-//     if (moreErr) {
-//       response.send("There was an error: " + moreErr);
-//     }
-//     else{
-//       return result.rows[0];
-//     }
-// });
-
-
 //ADD MEMBER TO NETWORK
 app.post('/addMember', function(req, res){
   var postBody = req.body;
@@ -175,8 +156,8 @@ app.post('/addMember', function(req, res){
     else{
       console.log("result");
       //console.log(result);
-      console.log(result.rows[0].UserID);
-      userid = result.rows[0].UserID;
+      console.log(result.rows[0].userid);
+      userid = result.rows[0].userid;
       console.log("userid= "+userid);
 
         client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
@@ -185,9 +166,34 @@ app.post('/addMember', function(req, res){
       }});
 
 });
-//var userID = user.UserID;
-//console.log(userID);
 
+
+//GET ALL MEMBERS FROM NETWORK
+app.post('/getMembers', function(req, res){
+
+  var email = req.body.useremail;
+  var password = req.body.userpassword;
+  var userid = 0;
+  client.query('SELECT * FROM users WHERE email = ($1) AND password=($2)', [email, password], function(err, result){
+    if(err){
+      res.send("There was an error  "+err);
+    }
+    else{
+      userid = result.rows[0].userid;
+      client.query('SELECT * FROM connections WHERE userid = ($1)', [userid], function(moreErr, result2){
+        if(moreErr){
+          res.send("THEre was an error "+moreErr);
+        }
+        else{
+          res.send(result2.rows);
+        }
+
+      });
+
+    }
+  });
+
+});
 
 var server = app.listen(3000, function() {
   var port = server.address().port;

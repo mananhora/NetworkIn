@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
@@ -15,9 +17,43 @@
   </script>
 
 <title> Your Network </title>
+
+<script>
+$(document).ready(function() {
+var list =[];
+  $.ajax({
+    url: "getMembers",
+    type: "POST",
+    dataType: "text",
+
+    data: {
+      useremail:"manan@manan.com",
+      userpassword: "mananan",
+    },
+    success: function(result) {
+      list = result;
+      list = JSON.parse(list);
+      console.log(list.length);
+      for(var i = 0; i<list.length; i++){
+        console.log(list[i].membername);
+        $("#viewnetwork").append(list[i].membername);
+        $("#viewnetwork").append("<br><br>");
+      }
+      console.log(list);
+    }
+
+});
+});
+
+</script>
 </head>
 <body>
 
+
+<div id = "viewnetwork">
+
+
+</div>
 
 
 
