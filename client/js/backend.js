@@ -79,14 +79,16 @@ $(document).ready(function() {
 
   //ADD Member
   $("#addMember").click(function(){
+    console.log(myEmail);
+    console.log(myPassword);
     console.log("ajax call add member");
     $.ajax({
       url: "addMember/",
       type: "POST",
       dataType: "text",
       data: {
-        useremail:myEmail,
-        userpassword: myPassword,
+        useremail:"manan@manan.com",
+        userpassword: "mananan",
         membername: $("#membername").val(),
         memberemail: $("#memberemail").val(),
       },
