@@ -4,7 +4,7 @@ var myPassword;
 
 
 $(document).ready(function() {
-
+  persistLogin();
   //LOGIN
   $("#logInButton").click(function() {
     var useremail = $("#email").val();
@@ -87,8 +87,54 @@ $(document).ready(function() {
     window.location = "index.html";
   }
 
+
+  // PERSISTENT LOGIN
+  function persistLogin() {
+    var myCookie = getCookie("user");
+    console.log("persistLogin");
+    if (myCookie == null) {
+      console.log("DNE");
+      $("#loggedIn").hide();
+      $("#login").show();
+    } else {
+      $("#loggedIn").show();
+      $("#login").hide();
+      $.ajax({
+        url: "users/getUser/",
+        type: "POST",
+        dataType: "text",
+        data: {
+          user: myCookie
+        },
+        success: function(result) {
+          $("#loginName").text(result);
+        }
+      });
+
+    }
+  }
+
+
+  // GET COOKIE
+  function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+      begin = dc.indexOf(prefix);
+      if (begin != 0) return null;
+    } else {
+      begin += 2;
+      var end = document.cookie.indexOf(";", begin);
+      if (end == -1) {
+        end = dc.length;
+      }
+    }
+    return unescape(dc.substring(begin + prefix.length, end));
+  }
+
   //ADD Member
-  $("#addMember").click(function(){
+  $("#addMember").click(function() {
     console.log(myEmail);
     console.log(myPassword);
     console.log("ajax call add member");
@@ -97,15 +143,15 @@ $(document).ready(function() {
       type: "POST",
       dataType: "text",
       data: {
-        useremail:"manan@manan.com",
+        useremail: "manan@manan.com",
         userpassword: "mananan",
         membername: $("#membername").val(),
         memberemail: $("#memberemail").val(),
       },
+    });
   });
-});
 
 
 
-//
+  //
 });
