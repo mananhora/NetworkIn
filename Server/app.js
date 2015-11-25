@@ -175,21 +175,28 @@ app.post('/addMember', function(req, res){
   var memberemail = postBody.memberemail;
   var myEmail = postBody.useremail;
   var myPassword = postBody.userpassword;
-  var user = client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND password=($2))', [myEmail, myPassword], function(moreErr, result) {
+
+  var userid = 0;
+  client.query('SELECT * FROM users WHERE email=($1) AND password=($2)', [myEmail, myPassword], function(moreErr, result) {
     if (moreErr) {
       response.send("There was an error: " + moreErr);
     }
     else{
-      return result.rows[0];
-    }
+      console.log("result");
+      //console.log(result);
+      console.log(result.rows[0].UserID);
+      userid = result.rows[0].UserID;
+      console.log("userid= "+userid);
+
+        client.query('INSERT INTO connections (membername, memberemail, userid) VALUES ($1, $2, $3)', [membername, memberemail, userid]);
+        console.log("hehllo");
+
+      }});
+
 });
 //var userID = user.UserID;
 //console.log(userID);
-console.log("fdf");
-  client.query('INSERT INTO connections (membername, userid, memberid) VALUES ($1, 8, 2)', [membername]);
-  console.log("hehllo");
 
-});
 
 var server = app.listen(3000, function() {
   var port = server.address().port;

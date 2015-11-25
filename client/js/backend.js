@@ -134,15 +134,26 @@ $(document).ready(function() {
   }
 
   //ADD Member
+<<<<<<< HEAD
   $("#addMember").click(function() {
+=======
+  $("#addMember").click(function(){
+    console.log(myEmail);
+    console.log(myPassword);
+>>>>>>> c2b1eee43e534c4f0756e28a1c447b0c0f67cfce
     console.log("ajax call add member");
     $.ajax({
       url: "addMember/",
       type: "POST",
       dataType: "text",
       data: {
+<<<<<<< HEAD
         useremail: myEmail,
         userpassword: myPassword,
+=======
+        useremail:"manan@manan.com",
+        userpassword: "mananan",
+>>>>>>> c2b1eee43e534c4f0756e28a1c447b0c0f67cfce
         membername: $("#membername").val(),
         memberemail: $("#memberemail").val(),
       },
