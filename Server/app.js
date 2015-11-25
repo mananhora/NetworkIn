@@ -13,6 +13,8 @@
 // https://github.com/pgbovine/csc210-fall-2015/blob/master/www/lectures-11-and-12/server.js
 var express = require('express');
 var app = express();
+var cookie = require('cookie');
+var cookieParser = require('cookie-parser')
 var pg = require('pg');
 var connString = "postgres://postgres:postgres@localhost:5432/personalcrm";
 var client = new pg.Client(connString);
@@ -24,7 +26,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-
+app.use(cookieParser());
 app.use(express.static('../client'));
 
 
@@ -67,6 +69,7 @@ app.post('/users/login', function(req, res) {
   var postBody = req.body;
   var myEmail = postBody.email;
   var myPassword = postBody.password;
+  console.log("Cookies: ", req.cookies);
   client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
     if (moreErr) {
       response.send("Oops! Something went wrong. Please try again.");
@@ -79,6 +82,8 @@ app.post('/users/login', function(req, res) {
         if (result.rows[0].password != myPassword) {
           res.send("Incorrect password.");
         } else {
+          res.cookie('user', result.rows[0].name, { httpOnly: false });
+          // console.log("InAPPMyCookie: ", res.cookie);
           res.send(result.rows[0]);
         }
       });

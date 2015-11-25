@@ -19,7 +19,6 @@ $(document).ready(function() {
         password: $("#password").val()
       },
       success: function(result) {
-        alert('Success! Welcome!');
         console.log(result);
         var results = JSON.parse(result);
         var uname = results.name;
@@ -75,7 +74,16 @@ $(document).ready(function() {
       }
     });
   });
+  //LOG OUT
+  $("#logOutButton").click(function() {
+    console.log("Logging out.");
+    deleteCookie();
+  });
 
+  function deleteCookie() {
+    document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location = "index.html";
+  }
 
   //ADD Member
   $("#addMember").click(function(){
@@ -94,5 +102,4 @@ $(document).ready(function() {
       },
   });
 });
-
 });
