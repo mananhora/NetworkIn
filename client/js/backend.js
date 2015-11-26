@@ -174,8 +174,18 @@ $(document).ready(function() {
       success: function(result) {
         alert('Success! Welcome!' + result);
         var list = JSON.parse(result);
-        console.log(list);
-      //  console.log(result);
+        if(result=="0"){
+          $("#searchresults").text("NO RESULTS FOUND");
+        }
+        else{
+          $("#searchresults").text(" ");
+        for(var i = 0; i<list.length; i++){
+          $("#searchresults").append(list[i].membername +"  "+ list[i].memberemail);
+          $("#searchresults").append("<br>");
+          console.log(list[i].memberemail);
+        }
+      }
+
 
       }
   });
