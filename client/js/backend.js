@@ -133,8 +133,6 @@ $(document).ready(function() {
   }
 
 
-
-
   //ADD Member
   $("#addMember").click(function() {
     var myUserId = getCookie("user");
@@ -157,7 +155,32 @@ $(document).ready(function() {
     });
   });
 
+  //SEARCH FOR MEMBER IN NETWORK
+  $("#searchmynetwork").click(function(){
+    var myUserId = getCookie("user");
+    var name = $("#searchname").val();
+    var tagone = $("#searchTag1").val();
+    var tagtwo = $("#searchTag2").val();
+    $.ajax({
+      url:"searchMembers",
+      type : "POST",
+      dataType :"text",
+      data: {
+        user:myUserId,
+        name :name,
+        tagone : tagone,
+        tagtwo :tagtwo
+      },
+      success: function(result) {
+        alert('Success! Welcome!' + result);
+        var list = JSON.parse(result);
+        console.log(list);
+      //  console.log(result);
 
+      }
+  });
 
   //
+});
+
 });
