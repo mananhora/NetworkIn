@@ -1,0 +1,44 @@
+#container3 {
+    float:left;
+    width:100%;
+    overflow:hidden;
+    position:relative;
+}
+
+#heading{
+  text-align:center;
+  font-size: 50px;
+}
+#container2 {
+    float:left;
+    width:100%;
+    position:relative;
+    right:30%;
+}
+#container1 {
+    float:left;
+    width:100%;
+    position:relative;
+    right:40%;
+}
+#left {
+    float:left;
+    width:26%;
+    position:relative;
+    left:72%;
+    overflow:hidden;
+}
+#center{
+    float:left;
+    width:36%;
+    position:relative;
+    left:76%;
+    overflow:hidden;
+}
+#right {
+    float:left;
+    width:26%;
+    position:relative;
+    left:80%;
+    overflow:hidden;
+}
