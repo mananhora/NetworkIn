@@ -22,7 +22,9 @@ function getCookie(name) {
 
 //GET LIST OF ALL PEOPLE  in NETWORK
 function getListOfMembers() {
-  $("#viewlist").text("  ");
+  $("#viewlist").text(" ");
+  $("#viewlist").append("<br>");
+
   var myUserId = getCookie("user");
   var list = [];
   $.ajax({
@@ -212,13 +214,10 @@ $(document).ready(function() {
 
       //ADD Member
       $("#addMember").click(function() {
+        console.log("ADDING MEMBER");
         var myUserId = getCookie("user");
         var taglist = parseAddTags();
-        // for(var i = 0; i<taglist.length; i++){
-        //
-        // }
-        // var tag1 = $("#tag1").val();
-        // var tag2 = $("#tag2").val();
+
         console.log(myEmail);
         console.log(myPassword);
         console.log("ajax call add member");
@@ -234,7 +233,10 @@ $(document).ready(function() {
             // tag1: tag1,
             // tag2: tag2
           },
+
+
         });
+        alert("SUCESSFULLY ADDED");
       });
 
       //SEARCH FOR MEMBER IN NETWORK

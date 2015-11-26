@@ -147,6 +147,9 @@ app.post('/addMember', function(req, res) {
     if (err) {
       alert("Could not add member to network");
     }
+    else{
+      res.send("successfully added");
+    }
   });
 
 });
@@ -176,7 +179,7 @@ app.post('/searchMembers', function(req, res) {
   var tagtwo = postBody.tagtwo;
   var tagthree = postBody.tagthree;
   //JUST NAME
-  if ((postBody.name != '' && postBody.name != null) && (taglist == null || taglist == '' || taglist.length == 0)) {
+  if ((postBody.name != '' && postBody.name != null) && (tagone == null || tagone == '' || tagone.length == 0)) {
     console.log("SEARCHING NAME");
     //var name = postBody.name;
     console.log(name);
