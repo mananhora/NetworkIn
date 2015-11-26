@@ -243,7 +243,6 @@ $(document).ready(function() {
         var name = $("#searchname").val();
         var taglist = parseSearchTags();
         var tagone = taglist[0];
-
         var tagtwo = taglist[1];
         var tagthree = taglist[2];
 
@@ -275,7 +274,6 @@ $(document).ready(function() {
 
           }
         });
-
 
 
       });

@@ -1,70 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src = "js/backend.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+  <!-- imports + scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src = "js/backend.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-<script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script>
 
 
 $(document).ready(function(){
-
-  //$("#loggedIn").hide();
-  // persistLogin();
-
-//LOGIN
-    // $("#logInButton").click(function(){
-    //   var useremail= $("#email").val();
-    //   var userpassword = $("#password").val();
-    //     $.ajax({ url: "users/login",
-    //           type: "POST",
-    //           dataType: "text",
-    //
-    //           data:{email: $("#email").val(), password: $("#password").val()},
-    //           success: function(result){
-    //             alert('Success! Welcome!');
-    //             console.log(result);
-    //             var results = JSON.parse(result);
-    //             var uname = results.name;
-    //             name = uname;
-    //
-    //             myEmail = useremail;
-    //             myPassword = userpassword;
-    //
-    //             $("#loggedIn").show();
-    //             $("#loginName").text(name);
-    //             $("#login").hide();
-    //
-    //             }
-    //
-    //           });
-    //         });
-
-//UPDATE NAME
-    // $("#changeNameButton").click(function(){
-    //   var newName = $("#updateName").val();
-    //
-    //   //Ajax call
-    //   $.ajax({ url: "users/updateName",
-    //         type: "POST",
-    //         dataType: "text",
-    //         data:{name: newName, email: myEmail, password: myPassword },
-    //         success: function(result){
-    //           alert('Success! Welcome!'+result);
-    //           name = result;
-    //           $("#loginName").text(name);
-    //         }
-    //       });
-    //     });
-
-//SIGN UP BUTTON
+    //SIGN UP
     $("#signUpButton").click(function(){
       window.location.href = "/registration.html";
     })
