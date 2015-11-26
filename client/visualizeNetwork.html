@@ -22,29 +22,7 @@
 
 <script>
 $(document).ready(function() {
-  var myUserId = getCookie("user");
-  var list =[];
-  $.ajax({
-    url: "getMembers",
-    type: "POST",
-    dataType: "text",
 
-    data: {
-      user: myUserId
-    },
-    success: function(result) {
-      list = result;
-      list = JSON.parse(list);
-      console.log(list.length);
-      for(var i = 0; i<list.length; i++){
-        console.log(list[i].membername);
-        $("#viewnetwork").append(list[i].membername);
-        $("#viewnetwork").append("<br><br>");
-      }
-      console.log(list);
-    }
-
-});
 });
 
 </script>

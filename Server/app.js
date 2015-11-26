@@ -144,12 +144,14 @@ app.post('/addMember', function(req, res) {
   var postBody = req.body;
   var membername = postBody.membername;
   var memberemail = postBody.memberemail;
-  var tag1 = postBody.tag1;
-  var tag2 = postBody.tag2;
+  var taglist = postBody.taglist;
+  console.log(taglist);
+  // var tag1 = postBody.tag1;
+  // var tag2 = postBody.tag2;
   var userid = postBody.user;
 
 
-  client.query('INSERT INTO connections (membername, memberemail, userid, tag1, tag2) VALUES ($1, $2, $3, $4, $5)', [membername, memberemail, userid, tag1, tag2]);
+  client.query('INSERT INTO connections (membername, memberemail, userid, taglist) VALUES ($1, $2, $3, $4)', [membername, memberemail, userid, taglist]);
   console.log("hehllo");
 
 
@@ -185,9 +187,12 @@ app.post('/searchMembers', function(req, res){
   var name = postBody.name;
   var tagone = postBody.tagone;
   var tagtwo = postBody.tagtwo;
+  var tagthree = postBody.tagthree;
+
+
 
   //NAME
-  if((postBody.name!='' && postBody.name!=null) && (postBody.tagone==''||postBody.tagone)){
+  if((postBody.name!='' && postBody.name!=null) && (taglist==null || taglist==''||taglist.length==0)){
     console.log("SEARCHING NAME");
     //var name = postBody.name;
     console.log(name);
@@ -212,96 +217,47 @@ app.post('/searchMembers', function(req, res){
     });
   }
 
-  //TAG1
-  if((postBody.name==''||postBody.name==null ||postBody.name=="") && postBody.tagone!=null && postBody.tagone!=''){
-    console.log("Searching tag1");
-    var tag1 = postBody.tagone;
-    client.query("SELECT * FROM connections WHERE userid = ($1) AND tag1=($2)", [userid, tag1], function(err, result){
+  //Tag1
+  if((postBody.name==''||postBody.name==null ||postBody.name=="") && tagone!=null && tagone!=''){
+    console.log("Searching tagone");
+    client.query("SELECT * FROM connections WHERE userid = ($1)",[userid], function(err, result){
+      var searchresults = [];
       if(err){
-        res.send("There was an error "+err);
+        res.send("There was an ERROR  "+err);
       }
-      else{
-        console.log("sending results");
-        console.log(result);
-        if(result.rows.length==0){
-          console.log("0");
+      else {
+        var connlist = [];
+        for(var i = 0; i<result.rows.length; i++){
+          connlist.push(result.rows[i]);
+        }
+
+        for(var i = 0; i<connlist.length; i++){
+          console.log(connlist[i].taglist);
+          var connlists = JSON.stringify(connlist);
+          var taglists = connlist[i].taglist;
+          if(taglists==null||taglists.length==0 || taglists==''){
+            i++;
+          }
+          if(taglists!=null){
+          if(searchTagList(taglists, tagone)){
+            searchresults.push(connlist[i]);
+          }
+        }
+        }
+        if(searchresults.length==0){
           res.send("0");
           return;
         }
-         else{
-        res.send(result.rows);
-        console.log("ehll");
-      }
-      }
-      console.log("almost done");
-    });
-    console.log("done");
-  }
-
-  //TAG1 AND TAG2
-  if((postBody.name==''||postBody.name==null) && postBody.tagone!=null && postBody.tagone!='' && postBody.tagtwo!=null && postBody.tagtwo!=''){
-    console.log("SEARCING TAG 1 and tag2");
-    var tag1 = postBody.tag1;
-    var tag2 = postBody.tag2;
-    client.query("SELECT * FROM connections WHERE userid = ($1) AND tag1=($2) AND tag2=($3)", [userid, tag1, tag2], function(err, result){
-      if(err){
-        res.send("There was an error "+err);
-      }
-      else{
-        if(result.rows.length==0){
-          console.log("0");
-          res.send("0");
+        else{
+          res.send(searchresults);
           return;
         }
-         else{
-        res.send(result.rows);
-      }
       }
     });
-  }
-
-  //NAME AND TAG1
-  if(postBody.name!='' && postBody.name!=null && postBody.tagone!=null && postBody.tagone!=''){
-    console.log("SEARCHING NAME AND TAG1");
-    var name = postBody.name;
-    var tag1 = postBody.tag1;
-    client.query("SELECT * FROM connections WHERE userid = ($1) AND tag1=($2) AND name=($3)", [userid, tag1, name], function(err, result){
-      if(err){
-        res.send("There was an error "+err);
-      }
-      else{
-        res.send(result.rows);
-      }
-    });
-  }
-
-  //NAME AND TAG1 AND TAG2
-  if(name!='' && name!=null && tagone!=null && tagtwo!=null && tagone!='' && tagone!='' ){
-
-    console.log("SEARCHIG NAME AND TAG1 and TAG2");
-
-    client.query("SELECT * FROM connections WHERE userid = ($1) AND tag1=($2) AND membername=($3) AND tag2=($4)", [userid, tagone, name, tagtwo], function(err, result){
-      if(err){
-        console.log("ERRROR"+ err);
-        res.send(err);
-      }
-      else{
-        if(result.rows.length==0){
-          console.log("0");
-          res.send("0");
-          return;
-        }
-         else{
-        //console.log(result);
-        res.send(result.rows);
-      }
-      }
-    });
-  }
-
 
   console.log("done");
 
+}
 });
 
 
@@ -309,6 +265,15 @@ app.post('/searchMembers', function(req, res){
 
 
 
+function searchTagList(taglist, tagone){
+  //write function to search through taglist (listof strings) to check if it contains tag one
+  for(var i = 0; i<taglist.length; i++){
+    if(taglist[i]==tagone){
+      return true;
+    }
+  }
+  return false;
+}
 
 
 
