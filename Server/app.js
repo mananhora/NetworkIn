@@ -138,12 +138,14 @@ app.post('/users/updateName', function(req, res) {
 
 //ADD MEMBER TO NETWORK
 app.post('/addMember', function(req, res) {
+  console.log("ADDING MEMEMBER");
   var postBody = req.body;
   var membername = postBody.membername;
   var memberemail = postBody.memberemail;
   var taglist = postBody.taglist;
   var userid = postBody.user;
-  client.query('INSERT INTO connections (membername, memberemail, userid, taglist) VALUES ($1, $2, $3, $4)', [membername, memberemail, userid, taglist], function(err) {
+  var groupid = postBody.groupid;
+  client.query('INSERT INTO connections (membername, memberemail, userid, taglist, groupid) VALUES ($1, $2, $3, $4, $5)', [membername, memberemail, userid, taglist, groupid], function(err) {
     if (err) {
       alert("Could not add member to network");
     } else {
@@ -290,6 +292,31 @@ app.post('/searchMembers', function(req, res) {
 });
 
 
+app.post('/users/getGroups', function(req, res){
+  var postBody = req.body;
+  var userid = postBody.userid;
+  console.log(userid);
+
+  client.query("SELECT * FROM groups WHERE userid = ($1)", [userid], function(err, result){
+    if(err){
+      res.send("0");
+    }
+    else{
+      //console.log("RESULT   "+result);
+      //result = JSON.parse(result);
+      //console.log(result.rows);
+      res.send(result.rows);
+      console.log(result.rows);
+      for(var i = 0; i<result.rows.length; i++){
+        console.log(result.rows[i].group_name);
+
+      }
+    }
+  });
+});
+
+
+
 function searchTagList(taglist, tagone) {
   //write function to search through taglist (listof strings) to check if it contains tag one
   for (var i = 0; i < taglist.length; i++) {
@@ -301,7 +328,21 @@ function searchTagList(taglist, tagone) {
 }
 
 
+app.post('/users/getGroupById', function(req, res){
+ var postBody = req.body;
+ var groupid = postBody.groupid;
+ var userid = postBody.userid;
 
+ client.query("SELECT * FROM connections WHERE groupid = ($1) AND userid=($2)", [groupid, userid], function(err, result){
+   if(err){
+     res.send("0");
+   }
+   else{
+     res.send(result.rows);
+   }
+ });
+
+});
 
 var server = app.listen(3000, function() {
   var port = server.address().port;
