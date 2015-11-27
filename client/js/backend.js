@@ -98,6 +98,40 @@ function parseSearchTags(){
 
 };
 
+//Add group
+function addGroup() {
+  var userid = getCookie("user");
+  $.ajax({
+    url: "users/addGroups",
+    type: "POST",
+    dataType: "text",
+    data: {
+      user: userid,
+      groupName: $("#newGroup").val()
+    },
+    success: function(result) {
+      console.log(result);
+    }
+    });
+};
+
+//Add to group
+function addMemberToGroup(){
+  var userid = getCookie("user");
+  $.ajax({
+    url: "users/addToGroup",
+    type: "POST",
+    dataType: "text",
+    data: {
+      user: userid,
+      groupName: $("#groupName").val(),
+      memberName: $("#memberName").val()
+    },
+    success: function(result) {
+      console.log(result);
+    }
+    });
+}
 
 $(document).ready(function() {
       persistLogin();

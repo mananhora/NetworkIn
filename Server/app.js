@@ -146,8 +146,7 @@ app.post('/addMember', function(req, res) {
   client.query('INSERT INTO connections (membername, memberemail, userid, taglist) VALUES ($1, $2, $3, $4)', [membername, memberemail, userid, taglist], function(err) {
     if (err) {
       alert("Could not add member to network");
-    }
-    else{
+    } else {
       res.send("successfully added");
     }
   });
@@ -165,6 +164,44 @@ app.post('/getMembers', function(req, res) {
       res.send(result2.rows);
     }
   });
+
+});
+
+//ADD GROUP
+app.post('/users/addGroups', function(req, res) {
+  var userid = req.body.user;
+  var group = req.body.groupName;
+  client.query('INSERT INTO groups (userid, group_name) VALUES ($1, $2)', [userid, group], function(err) {
+    if (err) {
+      console.log("Could not add group.");
+    } else {
+      res.send("New group created!");
+    }
+  })
+});
+
+
+//ADD TO GROUP
+app.post('/users/addToGroup', function(req, res) {
+  var userid = req.body.user;
+  var group = req.body.groupName;
+  var member = req.body.memberName;
+  console.log("\t\tuserid == " + userid + " group == " + group);
+  client.query("SELECT groupid FROM groups WHERE userid=($1) AND group_name=($2)", [userid, group], function(err, result) {
+    if (err) {
+      console.log("Not added to group successfully.");
+    } else {
+      var groupid = result.rows[0].groupid;
+      console.log("\t\tgroupid == " + groupid);
+      client.query("INSERT INTO group_members (groupid, member) VALUES ($1, $2)", [groupid, member], function(err) {
+        if (err) {
+          console.error("Mistake in inserting new member into group!");
+        } else {
+          res.send("Member added successfully!");
+        }
+      })
+    }
+  })
 
 });
 
