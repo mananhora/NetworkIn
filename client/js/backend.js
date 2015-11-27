@@ -191,7 +191,6 @@ function getGroupById(userid, groupid) {
         for(var i = 0; i<members.length; i++){
           $("#viewgroupmembers").append(members[i].membername+'<br>');
         }
-
       }
     }
   });
@@ -217,13 +216,23 @@ function addMemberToGroup() {
 }
 
 $(document).ready(function() {
+  var loggedin = false;
+  $(".dropdown").hide();
   getViewGroups();
 
   getSelectGroups();
 
   persistLogin();
+  if(loggedin==false){
+    $(".dropdown").hide();
+  }
+  if(loggedin==true){
+    $(".dropdown").show();
+  }
   //LOGIN
   $("#logInButton").click(function() {
+    $(".dropdown").show();
+
 
     console.log("loggin");
     var useremail = $("#email").val();
@@ -247,8 +256,10 @@ $(document).ready(function() {
         myPassword = userpassword;
 
         $("#loggedIn").show();
+        $("#loggedinname").text(name+" ");
         $("#loginName").text(name);
         $("#login").hide();
+        loggedin = true;
       }
 
     });
@@ -308,6 +319,8 @@ $(document).ready(function() {
 
   // PERSISTENT LOGIN
   function persistLogin() {
+    $(".dropdown").show();
+
     var myCookie = getCookie("user");
     console.log("persistLogin");
     if (myCookie == null) {
@@ -326,10 +339,11 @@ $(document).ready(function() {
           user: myCookie
         },
         success: function(result) {
+          $("#loggedinname").text(result+" ");
           $("#loginName").text(result);
         }
       });
-
+loggedin = true;
     }
   }
 
