@@ -217,6 +217,7 @@ app.post('/searchMembers', function(req, res) {
   var tagone = postBody.tagone;
   var tagtwo = postBody.tagtwo;
   var tagthree = postBody.tagthree;
+  var groupid = postBody.groupid;
   //JUST NAME
   if ((postBody.name != '' && postBody.name != null) && (tagone == null || tagone == '' || tagone.length == 0)) {
     console.log("SEARCHING NAME");
@@ -244,7 +245,7 @@ app.post('/searchMembers', function(req, res) {
   //JUST Tag1
   if ((postBody.name == '' || postBody.name == null || postBody.name == "") && tagone != null && tagone != '') {
     console.log("Searching tagone");
-    client.query("SELECT * FROM connections WHERE userid = ($1)", [userid], function(err, result) {
+    client.query("SELECT * FROM connections WHERE userid = ($1) AND groupid=($2)", [userid, groupid], function(err, result) {
       var searchresults = [];
       if (err) {
         res.send("There was an ERROR  " + err);

@@ -1,7 +1,9 @@
 var name;
 var myEmail;
 var myPassword;
-var selectedgroup;
+var selectedgroupAdd;
+var selectedgroupSearch;
+
 
 // GET COOKIE
 function getCookie(name) {
@@ -132,7 +134,9 @@ function getSelectGroups() {
         for (var i = 0; i < result.length; i++) {
 
           console.log(result[i].group_name);
-          $("#spanselectgroups").append('     <input id="selectgroups' + i + '" onclick="validate(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
+          $("#spanselectgroupsAdd").append('     <input id="selectgroupsAdd' + i + '" onclick="validateAdd(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
+
+          $("#spanselectgroupsSearch").append('     <input id="selectgroupsSearch' + i + '" onclick="validateSearch(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
         }
       }
     }
@@ -168,6 +172,7 @@ function getViewGroups() {
   });
 }
 
+//Get All members of a group given groupid and userid
 function getGroupById(userid, groupid) {
   console.log("get group by id");
   $.ajax({
@@ -343,7 +348,7 @@ $(document).ready(function() {
           $("#loginName").text(result);
         }
       });
-loggedin = true;
+      loggedin = true;
     }
   }
 
@@ -351,7 +356,7 @@ loggedin = true;
   $("#addMember").click(function() {
     //- As of now, can only add one member to one group
     console.log("ADDING MEMBER");
-    var groupidvalue = selectedgroup;
+    var groupidvalue = selectedgroupAdd;
     console.log(groupidvalue);
     // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
     //   window.alert("You must add the member to some group");
@@ -392,6 +397,8 @@ loggedin = true;
     var tagone = taglist[0];
     var tagtwo = taglist[1];
     var tagthree = taglist[2];
+    var groupidvalue = selectedgroupSearch;
+
 
     $.ajax({
       url: "searchMembers",
@@ -402,7 +409,8 @@ loggedin = true;
         name: name,
         tagone: tagone,
         tagtwo: tagtwo,
-        tagthree: tagthree
+        tagthree: tagthree,
+        groupid:groupidvalue
       },
       success: function(result) {
         alert('Success! Welcome!' + result);
@@ -429,12 +437,22 @@ loggedin = true;
 
 
 
-function validate(i) {
-  var group = "selectgroups".concat(i);
+function validateAdd(i) {
+  var group = "selectgroupsAdd".concat(i);
   var groupid = $("#" + group);
   var value = groupid.val();
   console.log(value);
   console.log("group  " + group);
   console.log("groupid  " + groupid);
-  selectedgroup = value; //this is the groupid of the selected group..
+  selectedgroupAdd = value; //this is the groupid of the selected group..
+}
+
+function validateSearch(i) {
+  var group = "selectgroupsSearch".concat(i);
+  var groupid = $("#" + group);
+  var value = groupid.val();
+  console.log(value);
+  console.log("group  " + group);
+  console.log("groupid  " + groupid);
+  selectedgroupSearch = value; //this is the groupid of the selected group..
 }

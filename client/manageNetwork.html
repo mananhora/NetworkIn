@@ -20,7 +20,8 @@
 <br>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+  <!-- NAVBAR -->
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -60,11 +61,13 @@
   <div id="container3">
     <div id="container2">
       <div id="container1">
-<div class = "column" id = "center">
-<h2>Add People </h2>
-<h5> Add people to your network</h5>
+        <div class = "column" id = "center">
 
-<form>
+<!-- ADD PEOPLE  -->
+<h2>Add People </h2>
+  <h5> Add people to your network</h5>
+
+  <form>
   Name of Member <input id = "membername" type ="text" > <br>
   Email          <input id = "memberemail" type = "text"><br>
   Tags          <input size="40" id = "addtags" type = "text" placeholder="Write Tags as comma separated values.."><br>
@@ -72,7 +75,7 @@
   <div class="row">
     <div class="col-lg-6">
       <div class="input-group">
-        <span id = "spanselectgroups" class="input-group-addon">
+        <span id = "spanselectgroupsAdd" class="input-group-addon">
           <label>GROUPS </label>
         </span>
 
@@ -85,23 +88,39 @@
 </div>
 <div class = "column" id= "left">
 
+<!-- SEARCH PEOPLE  -->
 <h2>SEARCH PEOPLE</h2>
-<h5>Search For people in your network</h5>
+  <h5>Search For people in your network</h5>
 
-Name<input type = "text" id = "searchname"> <br>
-Tags          <input size="40" id = "searchtags" type = "text" placeholder="Type tags as comma separated values.."><br>
+  Name<input type = "text" id = "searchname"> <br>
+  Tags          <input size="40" id = "searchtags" type = "text" placeholder="Type tags as comma separated values.."><br>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="input-group">
+        <span id = "spanselectgroupsSearch" class="input-group-addon">
+          <label>GROUPS </label>
+        </span>
 
-<button id = "searchmynetwork">Search</button>
-<br>
-<div id = "searchresults"></div>
-</div>
-<div id = "right" class = "column">
+      </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+
+  </div><!-- /.row -->
+  <button id = "searchmynetwork">Search</button>
+  <br>
+  <div id = "searchresults"></div>
+  </div>
+  <div id = "right" class = "column">
+
+<!-- VIEW PEOPLE -->
 <h2> View<h2>
-<h5> View all the People in Your Network<h5>
-<button id = "viewpeople" onclick="getListOfMembers()">View LIST</button>
-<div id = "viewlist"></div>
+
+  <h5> View all the People in Your Network<h5>
+    <button id = "viewpeople" onclick="getListOfMembers()">View LIST</button>
+    <div id = "viewlist"></div>
 </div>
-</div></div></div><div id="footer"></div>
+
+</div></div></div>
+<div id="footer"></div>
 
 </body>
 </html>
