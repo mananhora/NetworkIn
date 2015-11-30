@@ -29,12 +29,50 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static('../client'));
 
+var facebook = require('../facebook.js'),
+    passport = require('passport'),
+    config = require('../configurations/config.js'),
+    FacebookStrategy = require('passport-facebook').Strategy;
 
 app.get('/users/*', function(req, res) {
   console.log('hello');
   res.send('{}');
 });
 
+//FACEBOOK
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+
+
+passport.use(new FacebookStrategy({
+    clientID: config.facebook_api_key
+    clientSecret: config.facebook_api_secret,
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    enableProof: false
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/index.html');
+  });
 
 //REGISTER NEW USER
 app.post('/register/*', function(req, res) {
