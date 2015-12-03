@@ -16,6 +16,7 @@ var app = express();
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser')
 var pg = require('pg');
+// var cytoscape = require('cytoscape');
 var connString = "postgres://postgres:postgres@localhost:5432/personalcrm";
 var client = new pg.Client(connString);
 client.connect();
@@ -147,7 +148,7 @@ app.post('/addMember', function(req, res) {
   var groupid = postBody.groupid;
   client.query('INSERT INTO connections (membername, memberemail, userid, taglist, groupid) VALUES ($1, $2, $3, $4, $5)', [membername, memberemail, userid, taglist, groupid], function(err) {
     if (err) {
-      alert("Could not add member to network");
+      console.log("Could not add member to network");
     } else {
       res.send("successfully added");
     }

@@ -1,88 +1,103 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
+  <!-- <script src="cytoscape.js"></script> -->
   <!-- imports + scripts -->
-    <link rel = "stylesheet" href = "css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title> PersonalCRM </title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src = "js/backend.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script type="text/javascript" src="js/backend.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <script>
-
-
-$(document).ready(function(){
-    //SIGN UP
-    $("#signUpButton").click(function(){
-      window.location.href = "/registration.html";
-    })
-});
-
-</script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function() {
+      //SIGN UP
+      $("#signUpButton").click(function() {
+        window.location.href = "/registration.html";
+      })
+    });
+  </script>
 </head>
+
 <body>
 
-
-<h1>Personal CRM</h1>
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Home</a>
+  <div class="jumbotron">
+    <div class="container">
+      <h1 id="heading">Personal CRM</h1>
     </div>
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Home</a>
+      </div>
 
-
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" id = "loggedinname" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a id = "logOutButton" >Logout</a></li>
-            <li><a href="settings.html">Settings</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<!--DISPLAY WHEN LOGGED IN-->
-<div id="loggedIn">
-
-  <br>
-  <a href = "manageNetwork.html"> Manage Connections </a><br>
-  <a href = "visualizeNetwork.html"> View Your Network </a><br>
-  <div id = "viewgroups"></div>
-  <div id = "viewgroupmembers"></div>
-
-</div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 
-<!--DISPLAY WHEN NOT LOGGED IN-->
-<div id = "login">
-  Type in your email: <input id = "email" type = "text" placeholder="e.g. john.smith@gmail.com"/><br>
-  Type in your password: <input id = "password" type = "password"/><br>
-  <p> Don't have an account? </p>
-  <button id = "signUpButton">Sign up!</button>
-  <button id = "logInButton">Log In</button>
-</div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" id="loggedinname" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a id="logOutButton">Logout</a></li>
+              <li><a href="settings.html">Settings</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <!--DISPLAY WHEN LOGGED IN-->
+  <div id="loggedIn">
+    <div>
+      <h1 id="pageHeading"> Overview </h1>
+    </div>
+    <br>
+    <a href="manageNetwork.html"> Manage Connections </a>
+    <br>
+    <a href="visualizeNetwork.html"> Edit Your Network </a>
+    <br>
+    <div id="viewgroups"></div>
+    <div id="viewgroupmembers"></div>
+
+  </div>
+
+
+  <!--DISPLAY WHEN NOT LOGGED IN-->
+  <div id="login">
+    Type in your email:
+    <input id="email" type="text" placeholder="e.g. john.smith@gmail.com" />
+    <br> Type in your password:
+    <input id="password" type="password" />
+    <br>
+    <p> Don't have an account? </p>
+    <button id="signUpButton">Sign up!</button>
+    <button id="logInButton">Log In</button>
+  </div>
 
 
 </body>
+
 </html>

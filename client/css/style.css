@@ -1,44 +1,79 @@
-#container3 {
-    float:left;
-    width:100%;
-    overflow:hidden;
-    position:relative;
+/*#cy {
+  width: 300px;
+  height: 300px;
+  display: block;
+}*/
+
+#heading {
+  color: white;
+  font-family: Georgia, serif;
+  font-variant: small-caps;
+  text-transform: none;
+  font-weight: 100;
+  margin-bottom: 0;
+}
+#pageHeading {
+  font-family: 'Hoefler Text', Georgia, 'Times New Roman', serif;
+  font-weight: normal;
+  font-size: 1.75em;
+  letter-spacing: .2em;
+  line-height: 1.1em;
+  margin: 0px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-#heading{
-  text-align:center;
+#subHeading {
+  font-family:georgia, serif;
+	  color:#381704;
+	  font-size:10px;
+	  letter-spacing:0.1em;
+	  line-height:200%;
+	  padding-top:11px;
+}
+.jumbotron {
+  background-image: url('http://www.planwallpaper.com/static/images/recycled_texture_background_by_sandeep_m-d6aeau9_PZ9chud.jpg')
+}
+#container3 {
+  float: left;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+#heading {
+  text-align: center;
   font-size: 50px;
 }
 #container2 {
-    float:left;
-    width:100%;
-    position:relative;
-    right:30%;
+  float: left;
+  width: 100%;
+  position: relative;
+  right: 30%;
 }
 #container1 {
-    float:left;
-    width:100%;
-    position:relative;
-    right:40%;
+  float: left;
+  width: 100%;
+  position: relative;
+  right: 40%;
 }
 #left {
-    float:left;
-    width:26%;
-    position:relative;
-    left:72%;
-    overflow:hidden;
+  float: left;
+  width: 26%;
+  position: relative;
+  left: 72%;
+  overflow: hidden;
 }
-#center{
-    float:left;
-    width:36%;
-    position:relative;
-    left:76%;
-    overflow:hidden;
+#center {
+  float: left;
+  width: 36%;
+  position: relative;
+  left: 76%;
+  overflow: hidden;
 }
 #right {
-    float:left;
-    width:26%;
-    position:relative;
-    left:80%;
-    overflow:hidden;
+  float: left;
+  width: 26%;
+  position: relative;
+  left: 80%;
+  overflow: hidden;
 }
