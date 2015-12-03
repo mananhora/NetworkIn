@@ -75,27 +75,38 @@
       <h1 id="pageHeading"> Overview </h1>
     </div>
     <br>
-    <a href="manageNetwork.html"> Manage Connections </a>
+    <div class="col-lg-4 col-lg-offset-4">
+      <a href="manageNetwork.html" style="text-align:center"> Manage Connections </a> |
+      <a href="visualizeNetwork.html" style="text-align:center"> Edit Your Network </a>
+      <br>
+    </div>
     <br>
-    <a href="visualizeNetwork.html"> Edit Your Network </a>
     <br>
     <div id="viewgroups"></div>
-    <div id="viewgroupmembers"></div>
+    <!-- <div id="viewgroupmembers"></div> -->
 
   </div>
 
 
   <!--DISPLAY WHEN NOT LOGGED IN-->
   <div id="login">
-    Type in your email:
-    <input id="email" type="text" placeholder="e.g. john.smith@gmail.com" />
-    <br> Type in your password:
-    <input id="password" type="password" />
+    <div>
+      <h1 id="pageHeading"> Log In </h1>
+    </div>
     <br>
-    <p> Don't have an account? </p>
-    <button id="signUpButton">Sign up!</button>
-    <button id="logInButton">Log In</button>
+    <div class="col-lg-4 col-lg-offset-4">
+      <label for="email"> Email: </label>
+      <input id="email" class="form-control" type="text" placeholder="e.g. john.smith@gmail.com" />
+      <br>
+      <label for="password">Password:</label>
+      <input id="password" class="form-control" type="password" />
+
+      <p> Don't have an account? </p>
+      <button id="signUpButton">Sign up!</button>
+      <button id="logInButton">Log In</button>
+    </div>
   </div>
+
 
 
 </body>

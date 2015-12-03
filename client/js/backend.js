@@ -143,6 +143,10 @@ function getSelectGroups() {
   });
 }
 
+function redirect() {
+  var url = "../manageNetwork.html";
+  window.location.replace(url);
+}
 //Get list of groups of the user when viewing groups
 function getViewGroups() {
   var userid = getCookie("user");
@@ -156,15 +160,32 @@ function getViewGroups() {
     success: function(result) {
       console.log("Success");
       if (result == "0") {
-        alert("ERROR");
+        console.log("ERROR");
       } else {
         result = JSON.parse(result);
         for (var i = 0; i < result.length; i++) {
           console.log(result[i].group_name);
           var groupid = result[i].groupid;
           //  $("#viewgroups").append(result[i].group_name);
-          $("#viewgroups").append('               <button onclick =  "getGroupById(' + userid + ',' + groupid + ')">' + result[i].group_name + '</button>');
+          //       $("#viewgroups").append('               <button onclick =  "getGroupById(' + userid + ',' + groupid + ')">' + result[i].group_name + '</button>');
+          //
+          //       $("#viewgroups").append('              <div class=\"panel panel-default\">
+          //   <div class=\"panel-heading\">
+          //     <h4 class=\"panel-title\">
+          //       <a data-toggle=\"collapse\" href=\"#collapse1\">Collapsible panel</a>
+          //     </h4>
+          //   </div>
+          //   <div id=\"collapse1\" class=\"panel-collapse collapse\">
+          //     <div class=\"panel-body\">Panel Body</div>
+          //     <div class=\"panel-footer\">Panel Footer</div>
+          //   </div>
+          // </div>');
 
+          if (document.getElementById("viewgroups") != null) {
+            var oldHTML = document.getElementById("viewgroups").innerHTML;
+            document.getElementById("viewgroups").innerHTML = oldHTML + '<div class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" href="#collapse' + groupid + '">' + result[i].group_name + '</a></h4></div><div id="collapse' + groupid + '" class="panel-collapse collapse"><div class="panel-body"><div id="viewgroupmembers' + groupid + '"></div></div><div class="panel-footer"><button type="button" onclick="redirect()" class="btn btn-primary">Add Members</button></div></div></div></div>';
+            getGroupById(userid, groupid);
+          }
           //  $("#spanselectgroups").append(  '     <input id="selectgroups'+i+'" onclick="validate('+i+')" value = "'+result[i].groupid+'"" type="checkbox" aria-label="...">' + result[i].group_name+'<br>');
         }
       }
@@ -192,9 +213,13 @@ function getGroupById(userid, groupid) {
         console.log("got result");
         var members = JSON.parse(result);
         console.log(members);
-        $("#viewgroupmembers").empty();
-        for(var i = 0; i<members.length; i++){
-          $("#viewgroupmembers").append(members[i].membername+'<br>');
+        var elementid = "#viewgroupmembers" + groupid;
+        $(elementid).empty();
+        for (var i = 0; i < members.length; i++) {
+          $(elementid).append(members[i].membername + '<br>');
+        }
+        if (members.length == 0) {
+          $(elementid).append('<i> No Members Yet </i><br>');
         }
       }
     }
@@ -220,19 +245,27 @@ function addMemberToGroup() {
   });
 }
 
+function cookieExists(cookieName) {
+  if(getCookie(cookieName) == null){
+    return false;
+  }
+  return true;
+}
+
 $(document).ready(function() {
-  var loggedin = false;
+  var loggedin = cookieExists('user');
   $(".dropdown").hide();
-  getViewGroups();
+  // getViewGroups();
 
   getSelectGroups();
 
   persistLogin();
-  if(loggedin==false){
+  if (loggedin == false) {
     $(".dropdown").hide();
   }
-  if(loggedin==true){
+  if (loggedin == true) {
     $(".dropdown").show();
+    getViewGroups();
   }
   //LOGIN
   $("#logInButton").click(function() {
@@ -261,7 +294,7 @@ $(document).ready(function() {
         myPassword = userpassword;
 
         $("#loggedIn").show();
-        $("#loggedinname").text(name+" ");
+        $("#loggedinname").text(name + " ");
         $("#loginName").text(name);
         $("#login").hide();
         loggedin = true;
@@ -344,7 +377,7 @@ $(document).ready(function() {
           user: myCookie
         },
         success: function(result) {
-          $("#loggedinname").text(result+" ");
+          $("#loggedinname").text(result + " ");
           $("#loginName").text(result);
         }
       });
@@ -410,7 +443,7 @@ $(document).ready(function() {
         tagone: tagone,
         tagtwo: tagtwo,
         tagthree: tagthree,
-        groupid:groupidvalue
+        groupid: groupidvalue
       },
       success: function(result) {
         alert('Success! Welcome!' + result);
