@@ -71,7 +71,7 @@ app.post('/users/login', function(req, res) {
   console.log("Cookies: ", req.cookies);
   client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
     if (moreErr) {
-      response.send("Oops! Something went wrong. Please try again.");
+      alert("Oops! Something went wrong. Please try again.");
     } else if (result.rows[0].exists) {
       client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
@@ -89,7 +89,7 @@ app.post('/users/login', function(req, res) {
         }
       });
     } else {
-      res.send("Invalid email. Please try again.")
+      res.send("Invalid email. Please try again.");
     }
   });
 });
