@@ -270,229 +270,234 @@ $(document).ready(function() {
   }
   //LOGIN
   $("#logInButton").click(function() {
-      $(".dropdown").show();
+    $(".dropdown").show();
 
 
-      console.log("loggin");
-      var useremail = $("#email").val();
-      var userpassword = $("#password").val();
-      $.ajax({
-          url: "users/login",
-          type: "POST",
-          dataType: "text",
-
-          data: {
-            email: $("#email").val(),
-            password: $("#password").val()
-          },
-          success: function(result) {
-            console.log(result);
-            if (result === "Invalid email. Please try again.") {
-              alert("Incorrect email/password.");
-            } else {
-            var results = JSON.parse(result);
-            var uname = results.name;
-            name = uname;
-
-            myEmail = useremail;
-            myPassword = userpassword;
-
-            $("#loggedIn").show();
-            $("#loggedinname").text(name + " ");
-            $("#loginName").text(name);
-            $("#login").hide();
-            loggedin = true;
-          }
-        }
-
-      });
-  });
-
-$("#deleteAccountButton").click(function() {
-  deleteAccount();
-});
-
-//UPDATE NAME
-$("#changeNameButton").click(function() {
-  var newName = $("#updateName").val();
-  var myUserId = getCookie("user");
-
-  //Ajax call
-  $.ajax({
-    url: "users/updateName",
-    type: "POST",
-    dataType: "text",
-    data: {
-      name: newName,
-      user: myUserId
-    },
-    success: function(result) {
-      console.log('Success! Welcome!' + result);
-      name = result;
-      $("#loginName").text(name);
-    }
-  });
-});
-
-//SIGN UP
-$("#registerButton").click(function() {
-  console.log("REGSITRER");
-  $.ajax({
-    url: "register/",
-    type: "POST",
-    dataType: "text",
-    data: {
-      name: $("#name").val(),
-      email: $("#email").val(),
-      password: $("#password").val()
-    },
-    success: function(result) {
-      console.log('Success! Welcome!' + result);
-    }
-  });
-});
-
-//LOG OUT
-$("#logOutButton").click(function() {
-  console.log("Logging out.");
-  deleteCookie();
-});
-
-//DELECTE cookie
-function deleteCookie() {
-  document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  window.location = "index.html";
-}
-
-// DELETE ACCOUNT
-function deleteAccount() {
-  var userId = getCookie('user');
-
-  $.ajax({
-    url: "users/deleteUser",
-    type: "POST",
-    dataType: "text",
-    data: {
-      user: userId
-    },
-
-    success: function(result) {
-      console.log("successful deletion");
-      deleteCookie();
-    }
-  });
-
-}
-// PERSISTENT LOGIN
-function persistLogin() {
-  $(".dropdown").show();
-
-  var myCookie = getCookie("user");
-  console.log("persistLogin");
-  if (myCookie == null) {
-    console.log("DNE");
-    $("#loggedIn").hide();
-    $("#login").show();
-  } else {
-
-    $("#loggedIn").show();
-    $("#login").hide();
+    console.log("loggin");
+    var useremail = $("#email").val();
+    var userpassword = $("#password").val();
     $.ajax({
-      url: "users/getUser/",
+      url: "users/login",
+      type: "POST",
+      dataType: "text",
+
+      data: {
+        email: $("#email").val(),
+        password: $("#password").val()
+      },
+      success: function(result) {
+        console.log(result);
+        if (result === "Invalid email. Please try again.") {
+          alert("Incorrect email/password.");
+        } else {
+          var results = JSON.parse(result);
+          var uname = results.name;
+          name = uname;
+
+          myEmail = useremail;
+          myPassword = userpassword;
+
+          $("#loggedIn").show();
+          $("#loggedinname").text(name + " ");
+          $("#loginName").text(name);
+          $("#login").hide();
+          loggedin = true;
+        }
+      }
+
+    });
+  });
+
+  $("#deleteAccountButton").click(function() {
+    deleteAccount();
+  });
+
+  //UPDATE NAME
+  $("#changeNameButton").click(function() {
+    var newName = $("#updateName").val();
+    var myUserId = getCookie("user");
+
+    //Ajax call
+    $.ajax({
+      url: "users/updateName",
       type: "POST",
       dataType: "text",
       data: {
-        user: myCookie
+        name: newName,
+        user: myUserId
       },
       success: function(result) {
-        $("#loggedinname").text(result + " ");
-        $("#loginName").text(result);
+        console.log('Success! Welcome!' + result);
+        name = result;
+        $("#loginName").text(name);
       }
     });
-    loggedin = true;
-  }
-}
-
-//ADD Member
-$("#addMember").click(function() {
-  //- As of now, can only add one member to one group
-  console.log("ADDING MEMBER");
-  var groupidvalue = selectedgroupAdd;
-  console.log(groupidvalue);
-  // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
-  //   window.alert("You must add the member to some group");
-  // }
-
-  console.log("ADDING MEMBER");
-  var myUserId = getCookie("user");
-  var taglist = parseAddTags();
-
-  // console.log(myEmail);
-  // console.log(myPassword);
-  console.log("ADDDOng");
-
-  console.log("ajax call add member");
-  $.ajax({
-    url: "addMember/",
-    type: "POST",
-    dataType: "text",
-    data: {
-      user: myUserId,
-      membername: $("#membername").val(),
-      memberemail: $("#memberemail").val(),
-      taglist: taglist,
-      groupid: groupidvalue
-
-    },
-
   });
 
-  console.log("SUCESSFULLY ADDED");
-});
-
-//SEARCH FOR MEMBER IN NETWORK
-$("#searchmynetwork").click(function() {
-  var myUserId = getCookie("user");
-  var name = $("#searchname").val();
-  var taglist = parseSearchTags();
-  var tagone = taglist[0];
-  var tagtwo = taglist[1];
-  var tagthree = taglist[2];
-  var groupidvalue = selectedgroupSearch;
-
-
-  $.ajax({
-    url: "searchMembers",
-    type: "POST",
-    dataType: "text",
-    data: {
-      user: myUserId,
-      name: name,
-      tagone: tagone,
-      tagtwo: tagtwo,
-      tagthree: tagthree,
-      groupid: groupidvalue
-    },
-    success: function(result) {
-      console.log('Success! Welcome!' + result);
-      var list = JSON.parse(result);
-      if (result == "0") {
-        $("#searchresults").text("NO RESULTS FOUND");
-      } else {
-        $("#searchresults").text(" ");
-        for (var i = 0; i < list.length; i++) {
-          $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
-          $("#searchresults").append("<br>");
-          console.log(list[i].memberemail);
+  //SIGN UP
+  $("#registerButton").click(function() {
+    console.log("REGSITRER");
+    $.ajax({
+      url: "register/",
+      type: "POST",
+      dataType: "text",
+      data: {
+        name: $("#name").val(),
+        email: $("#email").val(),
+        password: $("#password").val()
+      },
+      success: function(result) {
+        if (result === "ERROR") {
+          alert("That email is taken. Please select another.");
+        } else {
+          console.log('Success! Welcome!' + result);
+          window.location.replace('/index.html');
         }
       }
-
-
-    }
+    });
   });
 
+  //LOG OUT
+  $("#logOutButton").click(function() {
+    console.log("Logging out.");
+    deleteCookie();
+  });
 
-});
+  //DELECTE cookie
+  function deleteCookie() {
+    document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location = "index.html";
+  }
+
+  // DELETE ACCOUNT
+  function deleteAccount() {
+    var userId = getCookie('user');
+
+    $.ajax({
+      url: "users/deleteUser",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: userId
+      },
+
+      success: function(result) {
+        console.log("successful deletion");
+        deleteCookie();
+      }
+    });
+
+  }
+  // PERSISTENT LOGIN
+  function persistLogin() {
+    $(".dropdown").show();
+
+    var myCookie = getCookie("user");
+    console.log("persistLogin");
+    if (myCookie == null) {
+      console.log("DNE");
+      $("#loggedIn").hide();
+      $("#login").show();
+    } else {
+
+      $("#loggedIn").show();
+      $("#login").hide();
+      $.ajax({
+        url: "users/getUser/",
+        type: "POST",
+        dataType: "text",
+        data: {
+          user: myCookie
+        },
+        success: function(result) {
+          $("#loggedinname").text(result + " ");
+          $("#loginName").text(result);
+        }
+      });
+      loggedin = true;
+    }
+  }
+
+  //ADD Member
+  $("#addMember").click(function() {
+    //- As of now, can only add one member to one group
+    console.log("ADDING MEMBER");
+    var groupidvalue = selectedgroupAdd;
+    console.log(groupidvalue);
+    // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
+    //   window.alert("You must add the member to some group");
+    // }
+
+    console.log("ADDING MEMBER");
+    var myUserId = getCookie("user");
+    var taglist = parseAddTags();
+
+    // console.log(myEmail);
+    // console.log(myPassword);
+    console.log("ADDDOng");
+
+    console.log("ajax call add member");
+    $.ajax({
+      url: "addMember/",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: myUserId,
+        membername: $("#membername").val(),
+        memberemail: $("#memberemail").val(),
+        taglist: taglist,
+        groupid: groupidvalue
+
+      },
+
+    });
+
+    console.log("SUCESSFULLY ADDED");
+  });
+
+  //SEARCH FOR MEMBER IN NETWORK
+  $("#searchmynetwork").click(function() {
+    var myUserId = getCookie("user");
+    var name = $("#searchname").val();
+    var taglist = parseSearchTags();
+    var tagone = taglist[0];
+    var tagtwo = taglist[1];
+    var tagthree = taglist[2];
+    var groupidvalue = selectedgroupSearch;
+
+
+    $.ajax({
+      url: "searchMembers",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: myUserId,
+        name: name,
+        tagone: tagone,
+        tagtwo: tagtwo,
+        tagthree: tagthree,
+        groupid: groupidvalue
+      },
+      success: function(result) {
+        console.log('Success! Welcome!' + result);
+        var list = JSON.parse(result);
+        if (result == "0") {
+          $("#searchresults").text("NO RESULTS FOUND");
+        } else {
+          $("#searchresults").text(" ");
+          for (var i = 0; i < list.length; i++) {
+            $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
+            $("#searchresults").append("<br>");
+            console.log(list[i].memberemail);
+          }
+        }
+
+
+      }
+    });
+
+
+  });
 
 });
 
