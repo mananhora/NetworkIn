@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 
 <head>
@@ -20,10 +20,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <script>
     $(document).ready(function() {
-      //SIGN UP
-      $("#signUpButton").click(function() {
-        window.location.href = "/registration.html";
-      })
+      updateValues();
     });
   </script>
 </head>
@@ -70,47 +67,16 @@
     <!-- /.container-fluid -->
   </nav>
 
-  <!--DISPLAY WHEN LOGGED IN-->
-  <div id="loggedIn">
-    <div>
-      <h1 class="pageHeading"> Overview </h1>
-    </div>
-    <br>
-    <div class="col-lg-4 col-lg-offset-4">
-      <a href="manageNetwork.html" style="text-align:center"> Manage Connections </a> |
-      <a href="visualizeNetwork.html" style="text-align:center"> Edit Your Network </a> |
-      <a href="#">Home</a> |
-      <a href="settings.html">Settings</a>
-      <br>
-    </div>
+  <div id="memberProfile">
+    <h2 id="currentMember" class="pageHeading"></h2>
     <br>
     <br>
-    <div id="viewgroups"></div>
-    <!-- <div id="viewgroupmembers"></div> -->
+    <center><p id="email"><strong>Email: </strong></p></center>
+    <center><p id="taglist"><strong>Tags: </strong></p></center>
+    <center><p id="details"><strong>Details: </strong></p></center>
 
+    <center><button id="deleteMember">Delete</button></center>
   </div>
-
-
-  <!--DISPLAY WHEN NOT LOGGED IN-->
-  <div id="login">
-    <div>
-      <h1 class="pageHeading"> Log In </h1>
-    </div>
-    <br>
-    <div class="col-lg-4 col-lg-offset-4">
-      <label for="email"> Email: </label>
-      <input id="email" class="form-control" type="text" placeholder="e.g. john.smith@gmail.com" />
-      <br>
-      <label for="password">Password:</label>
-      <input id="password" class="form-control" type="password" />
-
-      <p> Don't have an account? </p>
-      <button id="signUpButton">Sign up!</button>
-      <button id="logInButton">Log In</button>
-    </div>
-  </div>
-
-
 
 </body>
 

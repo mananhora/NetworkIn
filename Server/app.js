@@ -120,7 +120,22 @@ app.post('/users/deleteUser', function(req, res) {
   var userId = postBody.user;
   client.query('UPDATE users SET active=($1) WHERE userid=($2)', [false, userId], function(err, result) {
     if (err) {
-      return console.err("error in DeleteUser", err);
+      return console.error("error in DeleteUser", err);
+    }
+    else {
+      res.send("Deleted");
+    }
+  })
+});
+
+//DELETE MEMBER
+app.post('/users/deleteMember', function(req, res) {
+  console.log("Deleting Membebr.");
+  var postBody = req.body;
+  var memberId = postBody.member;
+  client.query('DELETE FROM connections WHERE memberid=($1)', [memberId], function(err, result) {
+    if (err) {
+      return console.error("error in DeleteMember", err);
     }
     else {
       res.send("Deleted");

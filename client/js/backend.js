@@ -4,8 +4,38 @@ var myPassword;
 var selectedgroupAdd;
 var selectedgroupSearch;
 
+// PROCESS FORM
+function updateValues() {
+  document.getElementById("currentMember").innerHTML = get('name');
+  if (get('email') !== null && get('email') !== "") {
+    document.getElementById("email").innerHTML = '<strong>Email: </strong>' + get('email');
+  }
+  if (get('taglist') !== null) {
+    document.getElementById("taglist").innerHTML = '<strong>Tags: </strong>' +get('taglist');
+  }
 
+}
 
+function get(name) {
+  if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+    return decodeURIComponent(name[1]);
+}
+
+// DELETE MEMBER
+function deleteMember(memberId) {
+  $.ajax({
+    url: "users/deleteMember",
+    type: "POST",
+    dataType: "text",
+    data: {
+      member: memberId
+    },
+
+    success: function(result) {
+      console.log("successful deletion");
+    }
+  });
+}
 // GET COOKIE
 function getCookie(name) {
   var dc = document.cookie;
@@ -217,7 +247,12 @@ function getGroupById(userid, groupid) {
         var elementid = "#viewgroupmembers" + groupid;
         $(elementid).empty();
         for (var i = 0; i < members.length; i++) {
-          $(elementid).append(members[i].membername + '<br>');
+          $(elementid).append('<form action="member.html" method="GET">' +
+          '<input type="hidden" value="' + members[i].memberid + '" name="id" id="id" >' +
+            '<input type="hidden" value="' + members[i].membername + '" name="name" id="name" >' +
+            '<input type="hidden" value="' + members[i].memberemail + '" name="email" id="email" >' +
+            '<input type="hidden" value="' + members[i].taglist + '" name="taglist" id="taglist" >' +
+            '<input type="submit" value="' + members[i].membername + '" ></form><br>');
         }
         if (members.length == 0) {
           $(elementid).append('<i> No Members Yet </i><br>');
@@ -302,6 +337,7 @@ $(document).ready(function() {
           $("#loginName").text(name);
           $("#login").hide();
           loggedin = true;
+          window.location.replace('/index.html');
         }
       }
 
@@ -453,6 +489,14 @@ $(document).ready(function() {
     });
 
     console.log("SUCESSFULLY ADDED");
+  });
+
+  //DELETE MEMBER FROM MEMBER PROFILE
+  $("#deleteMember").click(function() {
+    var memberId = get('id');
+    console.log("MemberId == " + memberId);
+    deleteMember(memberId);
+    window.location.replace('/index.html');
   });
 
   //SEARCH FOR MEMBER IN NETWORK
