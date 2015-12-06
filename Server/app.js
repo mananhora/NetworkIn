@@ -71,7 +71,7 @@ app.post('/users/login', function(req, res) {
   console.log("Cookies: ", req.cookies);
   client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
     if (moreErr) {
-      alert("Oops! Something went wrong. Please try again.");
+      res.send("Oops! Something went wrong. Please try again.");
     } else if (result.rows[0].exists) {
       client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
@@ -89,7 +89,7 @@ app.post('/users/login', function(req, res) {
         }
       });
     } else {
-      res.send("Invalid email. Please try again.");
+      res.send("Invalid email. Please try again.")
     }
   });
 });
@@ -120,7 +120,7 @@ app.post('/users/deleteUser', function(req, res) {
   var userId = postBody.user;
   client.query('UPDATE users SET active=($1) WHERE userid=($2)', [false, userId], function(err, result) {
     if (err) {
-      return console.err("error in DeleteUser", err);
+      return console.log("error in DeleteUser", err);
     }
     else {
       res.send("Deleted");
