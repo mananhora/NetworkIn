@@ -5,6 +5,7 @@ var selectedgroupAdd;
 var selectedgroupSearch;
 
 
+
 // GET COOKIE
 function getCookie(name) {
   var dc = document.cookie;
@@ -46,7 +47,7 @@ function getListOfMembers() {
 
       for (var i = 0; i < list.length; i++) {
         console.log(list[i].membername);
-        $("#viewlist").append(list[i].membername);
+        $("#viewlist").append(list[i].membername+"      "+list[i].memberemail +"      "+list[i].taglist);
         $("#viewlist").append("<br>");
       }
       console.log(list);
@@ -118,6 +119,8 @@ function addGroup() {
 
 //Get list of groups of the user when adding new members
 function getSelectGroups() {
+  $("#spanselectgroupsAdd").text("  ");
+  $("#spanselectgroupsSearch").text("   ");
   var userid = getCookie("user");
   $.ajax({
     url: "users/getGroups",
@@ -128,10 +131,13 @@ function getSelectGroups() {
     },
     success: function(result) {
       if (result == "0") {
-        alert("ERROR");
+        console.log("NO RESULTS");
       } else {
         result = JSON.parse(result);
+        console.log(result.length);
+
         for (var i = 0; i < result.length; i++) {
+          console.log("first");
 
           console.log(result[i].group_name);
           $("#spanselectgroupsAdd").append('     <input id="selectgroupsAdd' + i + '" onclick="validateAdd(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
@@ -147,6 +153,7 @@ function redirect() {
   var url = "../manageNetwork.html";
   window.location.replace(url);
 }
+
 //Get list of groups of the user when viewing groups
 function getViewGroups() {
   var userid = getCookie("user");
@@ -207,8 +214,8 @@ function getGroupById(userid, groupid) {
     success: function(result) {
       console.log("Success");
       if (result == "0") {
-        console.log("0");
-        alert("ERROR");
+        console.log("NO RESULTS FOUND");
+
       } else {
         console.log("got result");
         var members = JSON.parse(result);
@@ -216,7 +223,7 @@ function getGroupById(userid, groupid) {
         var elementid = "#viewgroupmembers" + groupid;
         $(elementid).empty();
         for (var i = 0; i < members.length; i++) {
-          $(elementid).append(members[i].membername + '<br>');
+          $(elementid).append(members[i].membername + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'       +members[i].memberemail+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'            +members[i].taglist+ '<br>');
         }
         if (members.length == 0) {
           $(elementid).append('<i> No Members Yet </i><br>');
@@ -246,7 +253,7 @@ function addMemberToGroup() {
 }
 
 function cookieExists(cookieName) {
-  if(getCookie(cookieName) == null){
+  if (getCookie(cookieName) == null) {
     return false;
   }
   return true;
@@ -257,9 +264,9 @@ $(document).ready(function() {
   $(".dropdown").hide();
   // getViewGroups();
 
-  getSelectGroups();
 
   persistLogin();
+
   if (loggedin == false) {
     $(".dropdown").hide();
   }
@@ -267,11 +274,14 @@ $(document).ready(function() {
     $(".dropdown").show();
     getViewGroups();
   }
+  getSelectGroups();
+
+
   //LOGIN
   $("#logInButton").click(function() {
-    $(".dropdown").show();
+      $(".dropdown").show();
 
-
+<<<<<<< HEAD
     console.log("loggin");
     var useremail = $("#email").val();
     var userpassword = $("#password").val();
@@ -297,174 +307,214 @@ $(document).ready(function() {
         $("#loggedinname").text(name + " ");
         $("#loginName").text(name);
         $("#login").hide();
+        window.location.replace('/index.html');
         loggedin = true;
       }
+=======
 
-    });
-  });
-
-  //UPDATE NAME
-  $("#changeNameButton").click(function() {
-    var newName = $("#updateName").val();
-    var myUserId = getCookie("user");
-
-    //Ajax call
-    $.ajax({
-      url: "users/updateName",
-      type: "POST",
-      dataType: "text",
-      data: {
-        name: newName,
-        user: myUserId
-      },
-      success: function(result) {
-        alert('Success! Welcome!' + result);
-        name = result;
-        $("#loginName").text(name);
-      }
-    });
-  });
-
-  //SIGN UP
-  $("#registerButton").click(function() {
-    console.log("REGSITRER");
-    $.ajax({
-      url: "register/",
-      type: "POST",
-      dataType: "text",
-      data: {
-        name: $("#name").val(),
-        email: $("#email").val(),
-        password: $("#password").val()
-      },
-      success: function(result) {
-        alert('Success! Welcome!' + result);
-      }
-    });
-  });
-
-  //LOG OUT
-  $("#logOutButton").click(function() {
-    console.log("Logging out.");
-    deleteCookie();
-  });
-
-  //DELECTE cookie
-  function deleteCookie() {
-    document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    window.location = "index.html";
-  }
-
-  // PERSISTENT LOGIN
-  function persistLogin() {
-    $(".dropdown").show();
-
-    var myCookie = getCookie("user");
-    console.log("persistLogin");
-    if (myCookie == null) {
-      console.log("DNE");
-      $("#loggedIn").hide();
-      $("#login").show();
-    } else {
-
-      $("#loggedIn").show();
-      $("#login").hide();
+      console.log("loggin");
+      var useremail = $("#email").val();
+      var userpassword = $("#password").val();
       $.ajax({
-        url: "users/getUser/",
+          url: "users/login",
+          type: "POST",
+          dataType: "text",
+
+          data: {
+            email: $("#email").val(),
+            password: $("#password").val()
+          },
+          success: function(result) {
+            console.log(result);
+            if (result === "Invalid email. Please try again.") {
+              alert("Incorrect email/password.");
+            } else {
+            var results = JSON.parse(result);
+            var uname = results.name;
+            name = uname;
+
+            myEmail = useremail;
+            myPassword = userpassword;
+
+            $("#loggedIn").show();
+            $("#loggedinname").text(name + " ");
+            $("#loginName").text(name);
+            $("#login").hide();
+            loggedin = true;
+          }
+        }
+>>>>>>> origin/cleanUI
+
+      });
+  });
+
+$("#deleteAccountButton").click(function() {
+  deleteAccount();
+});
+
+//UPDATE NAME
+$("#changeNameButton").click(function() {
+  var newName = $("#updateName").val();
+  var myUserId = getCookie("user");
+
+  //Ajax call
+  $.ajax({
+    url: "users/updateName",
+    type: "POST",
+    dataType: "text",
+    data: {
+      name: newName,
+      user: myUserId
+    },
+    success: function(result) {
+      alert('Success! Welcome!' + result);
+      name = result;
+      $("#loginName").text(name);
+    }
+  });
+});
+
+//SIGN UP
+$("#registerButton").click(function() {
+  console.log("REGSITRER");
+  $.ajax({
+    url: "register/",
+    type: "POST",
+    dataType: "text",
+    data: {
+      name: $("#name").val(),
+      email: $("#email").val(),
+      password: $("#password").val()
+    },
+    success: function(result) {
+      alert('Success! Welcome!' + result);
+    }
+  });
+});
+
+//LOG OUT
+$("#logOutButton").click(function() {
+  console.log("Logging out.");
+  deleteCookie();
+});
+
+//DELECTE cookie
+function deleteCookie() {
+  document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  window.location = "index.html";
+}
+
+// DELETE ACCOUNT
+function deleteAccount() {
+  var userId = getCookie('user');
+
+  $.ajax({
+    url: "users/deleteUser",
+    type: "POST",
+    dataType: "text",
+    data: {
+      user: userId
+    },
+
+    success: function(result) {
+      console.log("successful deletion");
+      deleteCookie();
+    }
+  });
+
+}
+// PERSISTENT LOGIN
+function persistLogin() {
+  $(".dropdown").show();
+
+  var myCookie = getCookie("user");
+  console.log("persistLogin");
+  if (myCookie == null) {
+    console.log("DNE");
+    $("#loggedIn").hide();
+    $("#login").show();
+  } else {
+
+    //ADD Member
+    $("#addMember").click(function() {
+      //- As of now, can only add one member to one group
+      console.log("ADDING MEMBER");
+      var groupidvalue = selectedgroupAdd;
+      console.log(groupidvalue);
+      // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
+      //   window.alert("You must add the member to some group");
+      // }
+
+      console.log("ADDING MEMBER");
+      var myUserId = getCookie("user");
+      var taglist = parseAddTags();
+
+      // console.log(myEmail);
+      // console.log(myPassword);
+      console.log("ADDDOng");
+
+      console.log("ajax call add member");
+      $.ajax({
+        url: "addMember/",
         type: "POST",
         dataType: "text",
         data: {
-          user: myCookie
+          user: myUserId,
+          membername: $("#membername").val(),
+          memberemail: $("#memberemail").val(),
+          taglist: taglist,
+          groupid: groupidvalue
+
         },
-        success: function(result) {
-          $("#loggedinname").text(result + " ");
-          $("#loginName").text(result);
-        }
+
       });
-      loggedin = true;
-    }
-  }
 
-  //ADD Member
-  $("#addMember").click(function() {
-    //- As of now, can only add one member to one group
-    console.log("ADDING MEMBER");
-    var groupidvalue = selectedgroupAdd;
-    console.log(groupidvalue);
-    // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
-    //   window.alert("You must add the member to some group");
-    // }
-
-    console.log("ADDING MEMBER");
-    var myUserId = getCookie("user");
-    var taglist = parseAddTags();
-
-    // console.log(myEmail);
-    // console.log(myPassword);
-    window.alert("ADDDOng");
-
-    console.log("ajax call add member");
-    $.ajax({
-      url: "addMember/",
-      type: "POST",
-      dataType: "text",
-      data: {
-        user: myUserId,
-        membername: $("#membername").val(),
-        memberemail: $("#memberemail").val(),
-        taglist: taglist,
-        groupid: groupidvalue
-
-      },
-
+      console.log("SUCESSFULLY ADDED");
     });
 
-    alert("SUCESSFULLY ADDED");
-  });
-
-  //SEARCH FOR MEMBER IN NETWORK
-  $("#searchmynetwork").click(function() {
-    var myUserId = getCookie("user");
-    var name = $("#searchname").val();
-    var taglist = parseSearchTags();
-    var tagone = taglist[0];
-    var tagtwo = taglist[1];
-    var tagthree = taglist[2];
-    var groupidvalue = selectedgroupSearch;
+//SEARCH FOR MEMBER IN NETWORK
+$("#searchmynetwork").click(function() {
+  var myUserId = getCookie("user");
+  var name = $("#searchname").val();
+  var taglist = parseSearchTags();
+  var tagone = taglist[0];
+  var tagtwo = taglist[1];
+  var tagthree = taglist[2];
+  var groupidvalue = selectedgroupSearch;
 
 
-    $.ajax({
-      url: "searchMembers",
-      type: "POST",
-      dataType: "text",
-      data: {
-        user: myUserId,
-        name: name,
-        tagone: tagone,
-        tagtwo: tagtwo,
-        tagthree: tagthree,
-        groupid: groupidvalue
-      },
-      success: function(result) {
-        alert('Success! Welcome!' + result);
-        var list = JSON.parse(result);
-        if (result == "0") {
-          $("#searchresults").text("NO RESULTS FOUND");
-        } else {
-          $("#searchresults").text(" ");
-          for (var i = 0; i < list.length; i++) {
-            $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
-            $("#searchresults").append("<br>");
-            console.log(list[i].memberemail);
-          }
+  $.ajax({
+    url: "searchMembers",
+    type: "POST",
+    dataType: "text",
+    data: {
+      user: myUserId,
+      name: name,
+      tagone: tagone,
+      tagtwo: tagtwo,
+      tagthree: tagthree,
+      groupid: groupidvalue
+    },
+    success: function(result) {
+      alert('Success! Welcome!' + result);
+      var list = JSON.parse(result);
+      if (result == "0") {
+        $("#searchresults").text("NO RESULTS FOUND");
+      } else {
+        $("#searchresults").text(" ");
+        for (var i = 0; i < list.length; i++) {
+          $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
+          $("#searchresults").append("<br>");
+          console.log(list[i].memberemail);
         }
-
-
       }
-    });
 
 
+    }
   });
+
+
+});
 
 });
 
