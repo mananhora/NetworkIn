@@ -131,7 +131,11 @@ function getSelectGroups() {
     },
     success: function(result) {
       if (result == "0") {
+<<<<<<< HEAD
         console.log("NO RESULTS");
+=======
+        console.log("ERROR");
+>>>>>>> origin/cleanUI
       } else {
         result = JSON.parse(result);
         console.log(result.length);
@@ -214,8 +218,13 @@ function getGroupById(userid, groupid) {
     success: function(result) {
       console.log("Success");
       if (result == "0") {
+<<<<<<< HEAD
         console.log("NO RESULTS FOUND");
 
+=======
+        console.log("0");
+        console.log("ERROR");
+>>>>>>> origin/cleanUI
       } else {
         console.log("got result");
         var members = JSON.parse(result);
@@ -296,6 +305,7 @@ $(document).ready(function() {
       },
       success: function(result) {
         console.log(result);
+<<<<<<< HEAD
         var results = JSON.parse(result);
         var uname = results.name;
         name = uname;
@@ -309,6 +319,24 @@ $(document).ready(function() {
         $("#login").hide();
         window.location.replace('/index.html');
         loggedin = true;
+=======
+        if (result === "Invalid email. Please try again.") {
+          alert("Incorrect email/password.");
+        } else {
+          var results = JSON.parse(result);
+          var uname = results.name;
+          name = uname;
+
+          myEmail = useremail;
+          myPassword = userpassword;
+
+          $("#loggedIn").show();
+          $("#loggedinname").text(name + " ");
+          $("#loginName").text(name);
+          $("#login").hide();
+          loggedin = true;
+        }
+>>>>>>> origin/cleanUI
       }
 =======
 
@@ -348,6 +376,7 @@ $(document).ready(function() {
       });
   });
 
+<<<<<<< HEAD
 $("#deleteAccountButton").click(function() {
   deleteAccount();
 });
@@ -371,6 +400,55 @@ $("#changeNameButton").click(function() {
       name = result;
       $("#loginName").text(name);
     }
+=======
+  $("#deleteAccountButton").click(function() {
+    deleteAccount();
+  });
+
+  //UPDATE NAME
+  $("#changeNameButton").click(function() {
+    var newName = $("#updateName").val();
+    var myUserId = getCookie("user");
+
+    //Ajax call
+    $.ajax({
+      url: "users/updateName",
+      type: "POST",
+      dataType: "text",
+      data: {
+        name: newName,
+        user: myUserId
+      },
+      success: function(result) {
+        console.log('Success! Welcome!' + result);
+        name = result;
+        $("#loginName").text(name);
+      }
+    });
+  });
+
+  //SIGN UP
+  $("#registerButton").click(function() {
+    console.log("REGSITRER");
+    $.ajax({
+      url: "register/",
+      type: "POST",
+      dataType: "text",
+      data: {
+        name: $("#name").val(),
+        email: $("#email").val(),
+        password: $("#password").val()
+      },
+      success: function(result) {
+        if (result === "ERROR") {
+          alert("That email is taken. Please select another.");
+        } else {
+          console.log('Success! Welcome!' + result);
+          window.location.replace('/index.html');
+        }
+      }
+    });
+>>>>>>> origin/cleanUI
   });
 });
 
@@ -398,6 +476,7 @@ $("#logOutButton").click(function() {
   deleteCookie();
 });
 
+<<<<<<< HEAD
 //DELECTE cookie
 function deleteCookie() {
   document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -421,6 +500,30 @@ function deleteAccount() {
       deleteCookie();
     }
   });
+=======
+  // DELETE ACCOUNT
+  function deleteAccount() {
+    var userId = getCookie('user');
+
+    $.ajax({
+      url: "users/deleteUser",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: userId
+      },
+
+      success: function(result) {
+        console.log("successful deletion");
+        deleteCookie();
+      }
+    });
+
+  }
+  // PERSISTENT LOGIN
+  function persistLogin() {
+    $(".dropdown").show();
+>>>>>>> origin/cleanUI
 
 }
 // PERSISTENT LOGIN
@@ -465,13 +568,46 @@ function persistLogin() {
           taglist: taglist,
           groupid: groupidvalue
 
+<<<<<<< HEAD
         },
+=======
+  //ADD Member
+  $("#addMember").click(function() {
+    //- As of now, can only add one member to one group
+    console.log("ADDING MEMBER");
+    var groupidvalue = selectedgroupAdd;
+    console.log(groupidvalue);
+    // if(selectedgroup==null || selectedgroup=='' || selectedgroup==""){
+    //   window.alert("You must add the member to some group");
+    // }
+
+    console.log("ADDING MEMBER");
+    var myUserId = getCookie("user");
+    var taglist = parseAddTags();
+
+    // console.log(myEmail);
+    // console.log(myPassword);
+    console.log("ADDDOng");
+
+    console.log("ajax call add member");
+    $.ajax({
+      url: "addMember/",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: myUserId,
+        membername: $("#membername").val(),
+        memberemail: $("#memberemail").val(),
+        taglist: taglist,
+        groupid: groupidvalue
+>>>>>>> origin/cleanUI
 
       });
 
       console.log("SUCESSFULLY ADDED");
     });
 
+<<<<<<< HEAD
 //SEARCH FOR MEMBER IN NETWORK
 $("#searchmynetwork").click(function() {
   var myUserId = getCookie("user");
@@ -506,6 +642,46 @@ $("#searchmynetwork").click(function() {
           $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
           $("#searchresults").append("<br>");
           console.log(list[i].memberemail);
+=======
+    console.log("SUCESSFULLY ADDED");
+  });
+
+  //SEARCH FOR MEMBER IN NETWORK
+  $("#searchmynetwork").click(function() {
+    var myUserId = getCookie("user");
+    var name = $("#searchname").val();
+    var taglist = parseSearchTags();
+    var tagone = taglist[0];
+    var tagtwo = taglist[1];
+    var tagthree = taglist[2];
+    var groupidvalue = selectedgroupSearch;
+
+
+    $.ajax({
+      url: "searchMembers",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: myUserId,
+        name: name,
+        tagone: tagone,
+        tagtwo: tagtwo,
+        tagthree: tagthree,
+        groupid: groupidvalue
+      },
+      success: function(result) {
+        console.log('Success! Welcome!' + result);
+        var list = JSON.parse(result);
+        if (result == "0") {
+          $("#searchresults").text("NO RESULTS FOUND");
+        } else {
+          $("#searchresults").text(" ");
+          for (var i = 0; i < list.length; i++) {
+            $("#searchresults").append(list[i].membername + "  " + list[i].memberemail);
+            $("#searchresults").append("<br>");
+            console.log(list[i].memberemail);
+          }
+>>>>>>> origin/cleanUI
         }
       }
 

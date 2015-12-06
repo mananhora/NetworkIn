@@ -48,12 +48,12 @@ app.post('/register/*', function(req, res) {
     if (err) response.send("Could not connect to DB: " + err);
     client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
       if (moreErr) {
-        res.send("Oops! Something went wrong. Please try again.");
+        res.send("ERROR");
       } else if (!result.rows[0].exists) {
         client.query('INSERT INTO users (name,email,password,active) VALUES ($1,$2,$3,$4)', [myName, myEmail, myPassword, true]);
         res.send('OK');
       } else {
-        res.send('That email has already been taken. Please try another.');
+        res.send('ERROR');
       }
     });
 
