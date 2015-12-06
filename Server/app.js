@@ -46,11 +46,11 @@ app.post('/register/*', function(req, res) {
 
   pg.connect(connString, function(err, client, done) {
     if (err) response.send("Could not connect to DB: " + err);
-    client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
+    client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
       if (moreErr) {
         res.send("Oops! Something went wrong. Please try again.");
       } else if (!result.rows[0].exists) {
-        client.query('INSERT INTO users (name,email,password) VALUES ($1,$2,$3)', [myName, myEmail, myPassword]);
+        client.query('INSERT INTO users (name,email,password,active) VALUES ($1,$2,$3,$4)', [myName, myEmail, myPassword, true]);
         res.send('OK');
       } else {
         res.send('That email has already been taken. Please try another.');
@@ -58,6 +58,7 @@ app.post('/register/*', function(req, res) {
     });
 
   });
+
 
 });
 
@@ -68,7 +69,7 @@ app.post('/users/login', function(req, res) {
   var myEmail = postBody.email;
   var myPassword = postBody.password;
   console.log("Cookies: ", req.cookies);
-  client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1))', [myEmail], function(moreErr, result) {
+  client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
     if (moreErr) {
       response.send("Oops! Something went wrong. Please try again.");
     } else if (result.rows[0].exists) {
@@ -107,6 +108,22 @@ app.post('/users/getUser', function(req, res) {
       return console.error("error in getUser", err);
     } else {
       res.send(result.rows[0].name);
+    }
+  })
+});
+
+
+//DELETE USER
+app.post('/users/deleteUser', function(req, res) {
+  console.log("Deleting User.");
+  var postBody = req.body;
+  var userId = postBody.user;
+  client.query('UPDATE users SET active=($1) WHERE userid=($2)', [false, userId], function(err, result) {
+    if (err) {
+      return console.err("error in DeleteUser", err);
+    }
+    else {
+      res.send("Deleted");
     }
   })
 });
