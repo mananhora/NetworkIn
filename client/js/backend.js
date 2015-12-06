@@ -129,7 +129,7 @@ function getSelectGroups() {
     },
     success: function(result) {
       if (result == "0") {
-        alert("ERROR");
+        console.log("ERROR");
       } else {
         result = JSON.parse(result);
         for (var i = 0; i < result.length; i++) {
@@ -209,7 +209,7 @@ function getGroupById(userid, groupid) {
       console.log("Success");
       if (result == "0") {
         console.log("0");
-        alert("ERROR");
+        console.log("ERROR");
       } else {
         console.log("got result");
         var members = JSON.parse(result);
@@ -327,7 +327,7 @@ $("#changeNameButton").click(function() {
       user: myUserId
     },
     success: function(result) {
-      alert('Success! Welcome!' + result);
+      console.log('Success! Welcome!' + result);
       name = result;
       $("#loginName").text(name);
     }
@@ -347,7 +347,7 @@ $("#registerButton").click(function() {
       password: $("#password").val()
     },
     success: function(result) {
-      alert('Success! Welcome!' + result);
+      console.log('Success! Welcome!' + result);
     }
   });
 });
@@ -429,7 +429,7 @@ $("#addMember").click(function() {
 
   // console.log(myEmail);
   // console.log(myPassword);
-  window.alert("ADDDOng");
+  console.log("ADDDOng");
 
   console.log("ajax call add member");
   $.ajax({
@@ -447,7 +447,7 @@ $("#addMember").click(function() {
 
   });
 
-  alert("SUCESSFULLY ADDED");
+  console.log("SUCESSFULLY ADDED");
 });
 
 //SEARCH FOR MEMBER IN NETWORK
@@ -474,7 +474,7 @@ $("#searchmynetwork").click(function() {
       groupid: groupidvalue
     },
     success: function(result) {
-      alert('Success! Welcome!' + result);
+      console.log('Success! Welcome!' + result);
       var list = JSON.parse(result);
       if (result == "0") {
         $("#searchresults").text("NO RESULTS FOUND");
