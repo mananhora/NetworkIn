@@ -32,7 +32,7 @@
 <body>
   <div class="jumbotron">
     <div class="container">
-      <h1 id="heading">Personal CRM</h1>
+      <h1 id="heading">Nurture</h1>
     </div>
   </div>
   <nav class="navbar navbar-default">
@@ -61,20 +61,53 @@
   </div>
   <br>
   <br>
-  <div class="col-lg-4 col-lg-offset-4">
-    <label for="newGroup"> Add New Group </label> <br>
-    <input type="text" id="newGroup" placeholder="Group Name" />
-    <button onclick="addGroup()">New Group</button>
+  <div id="container3">
+    <div id="container2">
+      <div id="container1">
+    <div class="column" id="left">
 
-    <br>
-    <br>
-    <br>
+      <!-- SEARCH PEOPLE  -->
+      <h2>Search People</h2>
+      <h5>Search For people in your network</h5>
 
-    <label for="groupName"> Add Member to Group </label><br>
-    <input type="text" id="groupName" placeholder="Group Name" />
-    <input type="text" id="memberName" placeholder="Member Name" />
-    <button onclick="addMemberToGroup()">Add</button>
+      Name
+      <input type="text" id="searchname">
+      <br> Tags
+      <input size="40" id="searchtags" type="text" placeholder="Type tags as ','separated values no space..">
+      <br>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <span id="spanselectgroupsSearch" class="input-group-addon">
+              <label>GROUPS </label>
+            </span>
+
+          </div>
+          <!-- /input-group -->
+        </div>
+        <!-- /.col-lg-6 -->
+
+      </div>
+      <!-- /.row -->
+      <button id="searchmynetwork">Search</button>
+      <br>
+      <div id="searchresults"></div>
+    </div>
+
+    <div id="right" class="column">
+
+      <!-- VIEW PEOPLE -->
+      <h2> View</h2>
+
+          <h5> View all the People in Your Network
+            <h5>
+              <button id="viewpeople" onclick="getListOfMembers()">View LIST</button>
+              <div id="viewlist"></div>
+    </div>
   </div>
+</div>
+</div>
+
 
 
 

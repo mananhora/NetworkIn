@@ -71,7 +71,7 @@ app.post('/users/login', function(req, res) {
   console.log("Cookies: ", req.cookies);
   client.query('SELECT exists (SELECT 1 FROM users WHERE email=($1) AND active=($2))', [myEmail, true], function(moreErr, result) {
     if (moreErr) {
-      alert("Oops! Something went wrong. Please try again.");
+      res.send("Oops! Something went wrong. Please try again.");
     } else if (result.rows[0].exists) {
       client.query('SELECT * FROM users WHERE email=($1)', [myEmail], function(moreErr, result) {
 
@@ -89,7 +89,7 @@ app.post('/users/login', function(req, res) {
         }
       });
     } else {
-      res.send("Invalid email. Please try again.");
+      res.send("Invalid email. Please try again.")
     }
   });
 });
@@ -120,6 +120,7 @@ app.post('/users/deleteUser', function(req, res) {
   var userId = postBody.user;
   client.query('UPDATE users SET active=($1) WHERE userid=($2)', [false, userId], function(err, result) {
     if (err) {
+<<<<<<< HEAD
       return console.error("error in DeleteUser", err);
     }
     else {
@@ -250,7 +251,9 @@ app.post('/searchMembers', function(req, res) {
   var tagone = postBody.tagone;
   var tagtwo = postBody.tagtwo;
   var tagthree = postBody.tagthree;
-  var groupid = postBody.groupid;
+
+  //  var groupid = postBody.groupid;
+
   //JUST NAME
   if ((postBody.name != '' && postBody.name != null) && (tagone == null || tagone == '' || tagone.length == 0)) {
     console.log("SEARCHING NAME");
@@ -276,17 +279,21 @@ app.post('/searchMembers', function(req, res) {
   }
 
   //JUST Tag1
-  if ((postBody.name == '' || postBody.name == null || postBody.name == "") && tagone != null && tagone != '') {
+  if ((postBody.name == '' || postBody.name == null || postBody.name == "") && tagone != null && tagone != '' && (tagtwo==null || tagtwo=='')) {
     console.log("Searching tagone");
-    client.query("SELECT * FROM connections WHERE userid = ($1) AND groupid=($2)", [userid, groupid], function(err, result) {
+    console.log(tagone);
+    client.query("SELECT * FROM connections WHERE userid = ($1)", [userid], function(err, result) {
       var searchresults = [];
       if (err) {
         res.send("There was an ERROR  " + err);
       } else {
         var connlist = [];
+        console.log("result  "+result.rows);
         for (var i = 0; i < result.rows.length; i++) {
+          console.log("ff");
           connlist.push(result.rows[i]);
         }
+        console.log(connlist);
 
         for (var i = 0; i < connlist.length; i++) {
           console.log(connlist[i].taglist);
@@ -302,6 +309,7 @@ app.post('/searchMembers', function(req, res) {
           }
         }
         if (searchresults.length == 0) {
+          console.log("NOT FOUND");
           res.send("0");
           return;
         } else {
@@ -323,7 +331,99 @@ app.post('/searchMembers', function(req, res) {
     console.log("done");
 
   }
+
+  //Tag1 and Tag2
+  if ((postBody.name == '' || postBody.name == null || postBody.name == "") && (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+    console.log("Searching tagone and tagtwo");
+    console.log(tagone+'  '+tagtwo);
+
+    client.query("SELECT * FROM connections WHERE userid = ($1)", [userid], function(err, result) {
+      var searchresults = [];
+      if (err) {
+        res.send("There was an ERROR  " + err);
+      } else {
+        var connlist = [];
+        console.log("result  "+result.rows);
+        for (var i = 0; i < result.rows.length; i++) {
+          console.log("ff");
+          connlist.push(result.rows[i]);
+        }
+        console.log(connlist);
+
+        for (var i = 0; i < connlist.length; i++) {
+          console.log(connlist[i].taglist);
+          var connlists = JSON.stringify(connlist);
+          var taglists = connlist[i].taglist;
+          if (taglists == null || taglists.length == 0 || taglists == '') {
+            i++;
+          }
+          if (taglists != null) {
+            if (searchTagList(taglists, tagone)) {
+              if(searchTagList(taglists, tagtwo))
+              searchresults.push(connlist[i]);
+            }
+          }
+        }
+        if (searchresults.length == 0) {
+          console.log("NOT FOUND");
+          res.send("0");
+          return;
+        } else {
+          res.send(searchresults);
+          return;
+        }
+      }
+
+  });
+
+
+  //Name and Tag1 and Tag2-NOT WORKING YET
+  if ((name != '' && name != null && name != "") && (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+    console.log("Searching tagone and tagtwo and name");
+    console.log(tagone+'  '+tagtwo);
+
+    client.query("SELECT * FROM connections WHERE userid = ($1) AND membername = ($2)", [userid, name], function(err, result) {
+      var searchresults = [];
+      if (err) {
+        res.send("There was an ERROR  " + err);
+      } else {
+        var connlist = [];
+        console.log("result  "+result.rows);
+        for (var i = 0; i < result.rows.length; i++) {
+          console.log("ff");
+          connlist.push(result.rows[i]);
+        }
+        console.log(connlist);
+
+        for (var i = 0; i < connlist.length; i++) {
+          console.log(connlist[i].taglist);
+          var connlists = JSON.stringify(connlist);
+          var taglists = connlist[i].taglist;
+          if (taglists == null || taglists.length == 0 || taglists == '') {
+            i++;
+          }
+          if (taglists != null) {
+            if (searchTagList(taglists, tagone)) {
+              if(searchTagList(taglists, tagtwo))
+              searchresults.push(connlist[i]);
+            }
+          }
+        }
+        if (searchresults.length == 0) {
+          console.log("NOT FOUND");
+          res.send("0");
+          return;
+        } else {
+          res.send(searchresults);
+          return;
+        }
+      }
+
+
 });
+
+}
+}});
 
 
 app.post('/users/getGroups', function(req, res){
@@ -348,7 +448,6 @@ app.post('/users/getGroups', function(req, res){
     }
   });
 });
-
 
 
 function searchTagList(taglist, tagone) {
