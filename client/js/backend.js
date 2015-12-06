@@ -131,11 +131,8 @@ function getSelectGroups() {
     },
     success: function(result) {
       if (result == "0") {
-<<<<<<< HEAD
         console.log("NO RESULTS");
-=======
         console.log("ERROR");
->>>>>>> origin/cleanUI
       } else {
         result = JSON.parse(result);
         console.log(result.length);
@@ -476,7 +473,6 @@ $("#logOutButton").click(function() {
   deleteCookie();
 });
 
-<<<<<<< HEAD
 //DELECTE cookie
 function deleteCookie() {
   document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -568,9 +564,7 @@ function persistLogin() {
           taglist: taglist,
           groupid: groupidvalue
 
-<<<<<<< HEAD
         },
-=======
   //ADD Member
   $("#addMember").click(function() {
     //- As of now, can only add one member to one group
@@ -600,14 +594,12 @@ function persistLogin() {
         memberemail: $("#memberemail").val(),
         taglist: taglist,
         groupid: groupidvalue
->>>>>>> origin/cleanUI
 
       });
 
       console.log("SUCESSFULLY ADDED");
     });
 
-<<<<<<< HEAD
 //SEARCH FOR MEMBER IN NETWORK
 $("#searchmynetwork").click(function() {
   var myUserId = getCookie("user");
