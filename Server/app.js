@@ -84,7 +84,7 @@ app.post('/users/login', function(req, res) {
           res.cookie('user', result.rows[0].userid, {
             httpOnly: false
           });
-          // console.log("InAPPMyCookie: ", res.cookie);
+
           res.send(result.rows[0]);
         }
       });
@@ -120,7 +120,6 @@ app.post('/users/deleteUser', function(req, res) {
   var userId = postBody.user;
   client.query('UPDATE users SET active=($1) WHERE userid=($2)', [false, userId], function(err, result) {
     if (err) {
-<<<<<<< HEAD
       return console.error("error in DeleteUser", err);
     }
     else {
@@ -251,6 +250,10 @@ app.post('/searchMembers', function(req, res) {
   var tagone = postBody.tagone;
   var tagtwo = postBody.tagtwo;
   var tagthree = postBody.tagthree;
+  console.log(name);
+  console.log(tagone);
+  console.log(tagtwo);
+
 
   //  var groupid = postBody.groupid;
 
@@ -277,6 +280,7 @@ app.post('/searchMembers', function(req, res) {
       }
     });
   }
+
 
   //JUST Tag1
   if ((postBody.name == '' || postBody.name == null || postBody.name == "") && tagone != null && tagone != '' && (tagtwo==null || tagtwo=='')) {
@@ -332,8 +336,9 @@ app.post('/searchMembers', function(req, res) {
 
   }
 
+
   //Tag1 and Tag2
-  if ((postBody.name == '' || postBody.name == null || postBody.name == "") && (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+  if ((name == '' || name == null || name == "") && (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
     console.log("Searching tagone and tagtwo");
     console.log(tagone+'  '+tagtwo);
 
@@ -375,10 +380,13 @@ app.post('/searchMembers', function(req, res) {
       }
 
   });
+}
 
 
-  //Name and Tag1 and Tag2-NOT WORKING YET
-  if ((name != '' && name != null && name != "") && (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+  //Name and Tag1 and Tag
+  if ( (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+    console.log("tagone and tagtwo");
+    if(name!==null && name!==''){
     console.log("Searching tagone and tagtwo and name");
     console.log(tagone+'  '+tagtwo);
 
@@ -390,7 +398,6 @@ app.post('/searchMembers', function(req, res) {
         var connlist = [];
         console.log("result  "+result.rows);
         for (var i = 0; i < result.rows.length; i++) {
-          console.log("ff");
           connlist.push(result.rows[i]);
         }
         console.log(connlist);
@@ -418,12 +425,11 @@ app.post('/searchMembers', function(req, res) {
           return;
         }
       }
-
-
-});
+ });
 
 }
-}});
+}
+});
 
 
 app.post('/users/getGroups', function(req, res){
