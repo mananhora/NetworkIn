@@ -380,11 +380,11 @@ app.post('/searchMembers', function(req, res) {
       }
 
   });
-}
+  }
 
 
-  //Name and Tag1 and Tag
-  if ( (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
+    //Name and Tag1 and Tag
+    if ( (tagone != null && tagone != '' && tagtwo!=null && tagtwo!='')){
     console.log("tagone and tagtwo");
     if(name!==null && name!==''){
     console.log("Searching tagone and tagtwo and name");
@@ -425,7 +425,7 @@ app.post('/searchMembers', function(req, res) {
           return;
         }
       }
- });
+    });
 
 }
 }

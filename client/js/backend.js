@@ -36,6 +36,7 @@ function deleteMember(memberId) {
     }
   });
 }
+
 // GET COOKIE
 function getCookie(name) {
   var dc = document.cookie;
