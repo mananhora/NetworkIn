@@ -107,6 +107,10 @@ app.post('/users/getUser', function(req, res) {
     if (err) {
       return console.error("error in getUser", err);
     } else {
+      console.log("YAYAY");
+      console.log(result.rows);
+      console.log("sf");
+      console.log(result.rows[0].name);
       res.send(result.rows[0].name);
     }
   })

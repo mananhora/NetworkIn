@@ -11,10 +11,11 @@ function updateValues() {
     document.getElementById("email").innerHTML = '<strong>Email: </strong>' + get('email');
   }
   if (get('taglist') !== null) {
-    document.getElementById("taglist").innerHTML = '<strong>Tags: </strong>' +get('taglist');
+    document.getElementById("taglist").innerHTML = '<strong>Tags: </strong>' + get('taglist');
   }
 
 }
+
 
 function get(name) {
   if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
@@ -142,14 +143,18 @@ function addGroup() {
       user: userid,
       groupName: $("#newGroup").val()
     },
+
     success: function(result) {
+
       console.log(result);
+      alert('Group successfully created!');
     }
   });
 };
 
 //Get list of groups of the user when adding new members
 function getSelectGroups() {
+  console.log("method call");
   var userid = getCookie("user");
   $.ajax({
     url: "users/getGroups",
@@ -159,16 +164,19 @@ function getSelectGroups() {
       userid: userid
     },
     success: function(result) {
+      $("#spanselectgroupsAdd").empty();
+
       if (result == "0") {
         console.log("ERROR");
       } else {
         result = JSON.parse(result);
+        console.log("working");
         for (var i = 0; i < result.length; i++) {
 
           console.log(result[i].group_name);
           $("#spanselectgroupsAdd").append('     <input id="selectgroupsAdd' + i + '" onclick="validateAdd(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
 
-          $("#spanselectgroupsSearch").append('     <input id="selectgroupsSearch' + i + '" onclick="validateSearch(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
+        //  $("#spanselectgroupsSearch").append('     <input id="selectgroupsSearch' + i + '" onclick="validateSearch(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
         }
       }
     }
@@ -249,11 +257,11 @@ function getGroupById(userid, groupid) {
         $(elementid).empty();
         for (var i = 0; i < members.length; i++) {
           $(elementid).append('<form action="member.html" method="GET">' +
-          '<input type="hidden" value="' + members[i].memberid + '" name="id" id="id" >' +
+            '<input type="hidden" value="' + members[i].memberid + '" name="id" id="id" >' +
             '<input type="hidden" value="' + members[i].membername + '" name="name" id="name" >' +
             '<input type="hidden" value="' + members[i].memberemail + '" name="email" id="email" >' +
             '<input type="hidden" value="' + members[i].taglist + '" name="taglist" id="taglist" >' +
-            '<input type="submit" value="' + members[i].membername + '" ></form><br>');
+            '<button id="people" value="' + members[i].membername + '" >' + members[i].membername + '</button></form><br>');
         }
         if (members.length == 0) {
           $(elementid).append('<i> No Members Yet </i><br>');
@@ -307,8 +315,6 @@ $(document).ready(function() {
   //LOGIN
   $("#logInButton").click(function() {
     $(".dropdown").show();
-
-
     console.log("loggin");
     var useremail = $("#email").val();
     var userpassword = $("#password").val();
@@ -332,7 +338,7 @@ $(document).ready(function() {
 
           myEmail = useremail;
           myPassword = userpassword;
-
+          console.log("name   " + name);
           $("#loggedIn").show();
           $("#loggedinname").text(name + " ");
           $("#loginName").text(name);
@@ -447,8 +453,11 @@ $(document).ready(function() {
           user: myCookie
         },
         success: function(result) {
+          console.log(result.length);
           $("#loggedinname").text(result + " ");
+          console.log("persistent login");
           $("#loginName").text(result);
+          // }
         }
       });
       loggedin = true;
