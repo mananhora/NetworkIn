@@ -38,6 +38,17 @@ function deleteMember(memberId) {
   });
 }
 
+function validName(input) {
+  return /\s+/.test(input) && input !== "" && input !== null;
+}
+
+function validEmail(input) {
+  if (input.indexOf('@') === -1) {
+    return false;
+  }
+  return true;
+}
+
 // GET COOKIE
 function getCookie(name) {
   var dc = document.cookie;
@@ -135,21 +146,27 @@ function parseSearchTags() {
 //Add group
 function addGroup() {
   var userid = getCookie("user");
-  $.ajax({
-    url: "users/addGroups",
-    type: "POST",
-    dataType: "text",
-    data: {
-      user: userid,
-      groupName: $("#newGroup").val()
-    },
 
-    success: function(result) {
+  if (validName($("#newGroup").val())) {
+    $.ajax({
+      url: "users/addGroups",
+      type: "POST",
+      dataType: "text",
+      data: {
+        user: userid,
+        groupName: $("#newGroup").val()
+      },
 
-      console.log(result);
-      alert('Group successfully created!');
-    }
-  });
+      success: function(result) {
+
+        console.log(result);
+        alert('Group successfully created!');
+      }
+    });
+  }
+  else {
+    window.alert("Please enter valid group name.");
+  }
 };
 
 //Get list of groups of the user when adding new members
@@ -176,7 +193,7 @@ function getSelectGroups() {
           console.log(result[i].group_name);
           $("#spanselectgroupsAdd").append('     <input id="selectgroupsAdd' + i + '" onclick="validateAdd(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
 
-        //  $("#spanselectgroupsSearch").append('     <input id="selectgroupsSearch' + i + '" onclick="validateSearch(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
+          //  $("#spanselectgroupsSearch").append('     <input id="selectgroupsSearch' + i + '" onclick="validateSearch(' + i + ')" value = "' + result[i].groupid + '"" type="checkbox" aria-label="...">' + result[i].group_name + '<br>');
         }
       }
     }
@@ -482,23 +499,26 @@ $(document).ready(function() {
     // console.log(myPassword);
     console.log("ADDDOng");
 
-    console.log("ajax call add member");
-    $.ajax({
-      url: "addMember/",
-      type: "POST",
-      dataType: "text",
-      data: {
-        user: myUserId,
-        membername: $("#membername").val(),
-        memberemail: $("#memberemail").val(),
-        taglist: taglist,
-        groupid: groupidvalue
+    if (validName($("#membername").val()) && validEmail($("#memberemail").val())) {
+      console.log("ajax call add member");
+      $.ajax({
+        url: "addMember/",
+        type: "POST",
+        dataType: "text",
+        data: {
+          user: myUserId,
+          membername: $("#membername").val(),
+          memberemail: $("#memberemail").val(),
+          taglist: taglist,
+          groupid: groupidvalue
 
-      },
+        },
 
-    });
+      });
 
-    console.log("SUCESSFULLY ADDED");
+      console.log("SUCESSFULLY ADDED");
+    }
+    window.alert("Please enter a valid name and email.");
   });
 
   //DELETE MEMBER FROM MEMBER PROFILE
