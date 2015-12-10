@@ -39,6 +39,7 @@ app.get('/users/*', function(req, res) {
   res.send('{}');
 });
 
+<<<<<<< Updated upstream
 //FACEBOOK
 
 passport.serializeUser(function(user, done) {
@@ -74,6 +75,8 @@ app.get('/auth/facebook/callback',
     res.redirect('/index.html');
   });
 
+=======
+>>>>>>> Stashed changes
 //REGISTER NEW USER
 app.post('/register/*', function(req, res) {
   var postBody = req.body;
@@ -97,7 +100,6 @@ app.post('/register/*', function(req, res) {
   });
 
 });
-
 
 //LOGIN USER
 app.post('/users/login', function(req, res) {
@@ -130,7 +132,6 @@ app.post('/users/login', function(req, res) {
   });
 });
 
-
 //GET NAME
 app.post('/users/getUser', function(req, res) {
   console.log("Getting User.");
@@ -147,7 +148,6 @@ app.post('/users/getUser', function(req, res) {
     }
   })
 });
-
 
 //UPDATE NAME
 app.post('/users/updateName', function(req, res) {
@@ -173,7 +173,6 @@ app.post('/users/updateName', function(req, res) {
   });
 });
 
-
 //ADD MEMBER TO NETWORK
 app.post('/addMember', function(req, res) {
   console.log("ADDING MEMEMBER");
@@ -192,7 +191,6 @@ app.post('/addMember', function(req, res) {
   });
 
 });
-
 
 //GET ALL MEMBERS FROM NETWORK
 app.post('/getMembers', function(req, res) {
@@ -220,7 +218,6 @@ app.post('/users/addGroups', function(req, res) {
   })
 });
 
-
 //ADD TO GROUP
 app.post('/users/addToGroup', function(req, res) {
   var userid = req.body.user;
@@ -244,7 +241,6 @@ app.post('/users/addToGroup', function(req, res) {
   })
 
 });
-
 
 //SEARCH MEMBERS FROM NETWORK
 app.post('/searchMembers', function(req, res) {
@@ -330,7 +326,7 @@ app.post('/searchMembers', function(req, res) {
   }
 });
 
-
+//GET LIST OF ALL GROUPS OF A USER
 app.post('/users/getGroups', function(req, res){
   var postBody = req.body;
   var userid = postBody.userid;
@@ -354,8 +350,7 @@ app.post('/users/getGroups', function(req, res){
   });
 });
 
-
-
+//Given a list of tags of a user, check if given tag exists in that list
 function searchTagList(taglist, tagone) {
   //write function to search through taglist (listof strings) to check if it contains tag one
   for (var i = 0; i < taglist.length; i++) {
@@ -366,7 +361,7 @@ function searchTagList(taglist, tagone) {
   return false;
 }
 
-
+//Get a specific group in a user's network given userid and groupid
 app.post('/users/getGroupById', function(req, res){
  var postBody = req.body;
  var groupid = postBody.groupid;
