@@ -39,7 +39,6 @@ app.get('/users/*', function(req, res) {
   res.send('{}');
 });
 
-<<<<<<< Updated upstream
 //FACEBOOK
 
 passport.serializeUser(function(user, done) {
@@ -75,8 +74,6 @@ app.get('/auth/facebook/callback',
     res.redirect('/index.html');
   });
 
-=======
->>>>>>> Stashed changes
 //REGISTER NEW USER
 app.post('/register/*', function(req, res) {
   var postBody = req.body;
