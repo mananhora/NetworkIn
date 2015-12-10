@@ -52,7 +52,7 @@ passport.deserializeUser(function(obj, done) {
 
 
 passport.use(new FacebookStrategy({
-    clientID: config.facebook_api_key
+    clientID: config.facebook_api_key,
     clientSecret: config.facebook_api_secret,
     callbackURL: "http://localhost:3000/auth/facebook/callback",
     enableProof: false
