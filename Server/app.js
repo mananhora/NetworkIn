@@ -206,6 +206,7 @@ app.post('/getMembers', function(req, res) {
 
 });
 
+
 //ADD GROUP
 app.post('/users/addGroups', function(req, res) {
   var userid = req.body.user;
@@ -219,6 +220,35 @@ app.post('/users/addGroups', function(req, res) {
   })
 });
 
+//DELETE GROUP
+app.post('/users/deleteGroup', function(req, res){
+  console.log("DELETE GROUPS ");
+  var userid = req.body.userid;
+  var groupid = req.body.groupid;
+  groupid = JSON.parse(groupid);
+  userid = JSON.parse(userid);
+  console.log(groupid);
+  console.log(userid);
+  client.query("DELETE * FROM connections WHERE groupid=($1) AND userid=($2)", [groupid, userid], function(err, result){
+    if(err){
+      console.log("cant delete connections..");
+    }
+    else{
+      console.log("deleted connections..");
+    }
+  });
+  client.query("DELETE FROM groups WHERE groupid=($1)", [groupid], function(err, result){
+    //console.log(result.rows.length);
+    console.log("query");
+    if(err){
+      console.log("Not able to delete group..");
+    }
+    else{
+      console.log("GROUP DELETED");
+      res.send("Group Deleted");
+    }
+  });
+});
 
 //ADD TO GROUP
 app.post('/users/addToGroup', function(req, res) {
@@ -431,11 +461,12 @@ app.post('/searchMembers', function(req, res) {
       }
     });
 
-}
-}
-});
+  }
+  }
+  });
 
 
+//GET ALL THE GROUPS OF A USER
 app.post('/users/getGroups', function(req, res){
   var postBody = req.body;
   var userid = postBody.userid;
@@ -460,8 +491,10 @@ app.post('/users/getGroups', function(req, res){
 });
 
 
+//SEARCH TAG LIST FOR tagone
 function searchTagList(taglist, tagone) {
   //write function to search through taglist (listof strings) to check if it contains tag one
+
   for (var i = 0; i < taglist.length; i++) {
     if (taglist[i] == tagone) {
       return true;
@@ -470,6 +503,54 @@ function searchTagList(taglist, tagone) {
   return false;
 }
 
+
+//GET ALL TAGS DEFINED BY USER
+app.post('/users/getTags', function(req, res){
+  var postBody = req.body;
+  var userid = postBody.userid;
+  var taglist = [];
+  console.log(userid);
+
+  client.query('SELECT * FROM connections WHERE userid = ($1)', [userid], function(err, result){
+    if(err){
+      console.log(err+" ERROR!!!");
+      res.send("0");
+    }
+    else{
+      console.log("GET TAGS        ");
+      console.log("fdfkjdhkjf");
+      // console.log(result);
+      // console.log(result.rows);
+      // console.log(result.rows.length);
+      // console.log(result);
+      // console.log(result.rows);
+
+      var connlists = JSON.stringify(result.rows);
+
+
+      res.send(connlists);
+      // for(var i = 0; i<result.rows.length; i++){
+      //   // console.log("hui");
+      //   // console.log(result.rows[i].taglist);
+      //   var list = result.rows[i].taglist;
+      //   list = JSON.stringify(list);
+      //   list = JSON.parse(list);
+      //   //list = JSON.parselist);
+      //   console.log(list);
+      //   //console.log(list.length);
+      // //  console.log(list.length);
+      //
+      //   // for(var j = 0; j<list.length; i++){
+      //   //   if(!taglist.contains(list[j])){
+      //   //     taglist.push(list[j]);
+      //   //     console.log(list[j]);
+      //   //   }
+      //   // }
+      // }
+
+    }
+  });
+});
 
 app.post('/users/getGroupById', function(req, res){
  var postBody = req.body;

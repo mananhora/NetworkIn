@@ -16,7 +16,6 @@ function updateValues() {
 
 }
 
-
 function get(name) {
   if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
     return decodeURIComponent(name[1]);
@@ -38,16 +37,17 @@ function deleteMember(memberId) {
   });
 }
 
-function validName(input) {
-  return /\s+/.test(input) && input !== "" && input !== null;
-}
+// function validName(input) {
+//   return !/\s+/.test(input) && input !== "" && input !== null;
+// }
 
-function validEmail(input) {
-  if (input.indexOf('@') === -1) {
-    return false;
-  }
-  return true;
-}
+// function validEmail(input) {
+//   console.log(input);
+//   if (input.indexOf('@') === -1) {
+//     return false;
+//   }
+//   return true;
+// }
 
 // GET COOKIE
 function getCookie(name) {
@@ -99,6 +99,33 @@ function getListOfMembers() {
   });
 };
 
+//get all tags previously defined by the user...
+function getTags(){
+  console.log("GET TAGS");
+  var userid = getCookie("user");
+  console.log(userid);
+  //$("#yourtags").text(" ");
+  $.ajax({
+    url:"users/getTags",
+    type:"POST",
+    dataType:"text",
+    data:{
+        userid:userid
+    },
+    success: function(result){
+      console.log("GETTING RESULT");
+      result = JSON.parse(result);
+      for(var i = 0; i<result.length; i++){
+      var list = JSON.stringify(result[i]);
+      console.log(list);
+      var resultlist = list.taglist;
+
+      }
+      console.log(result);
+    }
+  });
+}
+
 //Function to parse tags for adding members
 function parseAddTags() {
   var taglist = [];
@@ -147,7 +174,7 @@ function parseSearchTags() {
 function addGroup() {
   var userid = getCookie("user");
 
-  if (validName($("#newGroup").val())) {
+  //if (validName($("#newGroup").val())) {
     $.ajax({
       url: "users/addGroups",
       type: "POST",
@@ -163,11 +190,31 @@ function addGroup() {
         alert('Group successfully created!');
       }
     });
-  }
-  else {
-    window.alert("Please enter valid group name.");
-  }
+  //}
+  // else {
+  //   window.alert("Please enter valid group name.");
+  // }
 };
+
+//Delete group
+function deleteGroup(groupid){
+  console.log("DELETE GROUPS ");
+ var groupid = groupid;
+ var userid = getCookie("user");
+ $.ajax({
+   url: "users/deleteGroup",
+   type :"POST",
+   dataType: "text",
+   data:{
+     userid:userid,
+     groupid:groupid
+   },
+   success:function(){
+     window.alert("GROUP SUCCESSFULLY DELETED");
+   }
+ });
+}
+
 
 //Get list of groups of the user when adding new members
 function getSelectGroups() {
@@ -204,6 +251,7 @@ function redirect() {
   var url = "../manageNetwork.html";
   window.location.replace(url);
 }
+
 //Get list of groups of the user when viewing groups
 function getViewGroups() {
   var userid = getCookie("user");
@@ -241,6 +289,7 @@ function getViewGroups() {
           if (document.getElementById("viewgroups") != null) {
             var oldHTML = document.getElementById("viewgroups").innerHTML;
             document.getElementById("viewgroups").innerHTML = oldHTML + '<div class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" href="#collapse' + groupid + '">' + result[i].group_name + '</a></h4></div><div id="collapse' + groupid + '" class="panel-collapse collapse"><div class="panel-body"><div id="viewgroupmembers' + groupid + '"></div></div><div class="panel-footer"><button type="button" onclick="redirect()" class="btn btn-primary">Add Members</button></div></div></div></div>';
+            //document.getElementById("viewgroups").innerHTML = oldHTML +'<button id = "deleteGroup"> Delete Group </button>';
             getGroupById(userid, groupid);
           }
           //  $("#spanselectgroups").append(  '     <input id="selectgroups'+i+'" onclick="validate('+i+')" value = "'+result[i].groupid+'"" type="checkbox" aria-label="...">' + result[i].group_name+'<br>');
@@ -252,6 +301,7 @@ function getViewGroups() {
 
 //Get All members of a group given groupid and userid
 function getGroupById(userid, groupid) {
+
   console.log("get group by id");
   $.ajax({
     url: "users/getGroupById",
@@ -262,6 +312,7 @@ function getGroupById(userid, groupid) {
       groupid: groupid
     },
     success: function(result) {
+
       console.log("Success");
       if (result == "0") {
         console.log("0");
@@ -272,6 +323,8 @@ function getGroupById(userid, groupid) {
         console.log(members);
         var elementid = "#viewgroupmembers" + groupid;
         $(elementid).empty();
+        $(elementid).append('<button  id = \"deletegroup\" onclick=\"deleteGroup('+groupid+')\"> DeleteGroup</button>');
+
         for (var i = 0; i < members.length; i++) {
           $(elementid).append('<form action="member.html" method="GET">' +
             '<input type="hidden" value="' + members[i].memberid + '" name="id" id="id" >' +
@@ -315,6 +368,7 @@ function cookieExists(cookieName) {
 }
 
 $(document).ready(function() {
+  getTags();
   var loggedin = cookieExists('user');
   $(".dropdown").hide();
   // getViewGroups();
@@ -499,7 +553,7 @@ $(document).ready(function() {
     // console.log(myPassword);
     console.log("ADDDOng");
 
-    if (validName($("#membername").val()) && validEmail($("#memberemail").val())) {
+    // if (validName($("#membername").val()) && validEmail($("#memberemail").val())) {
       console.log("ajax call add member");
       $.ajax({
         url: "addMember/",
@@ -517,8 +571,8 @@ $(document).ready(function() {
       });
 
       console.log("SUCESSFULLY ADDED");
-    }
-    window.alert("Please enter a valid name and email.");
+    //}
+    //window.alert("Please enter a valid name and email.");
   });
 
   //DELETE MEMBER FROM MEMBER PROFILE
@@ -574,8 +628,6 @@ $(document).ready(function() {
   });
 
 });
-
-
 
 function validateAdd(i) {
   var group = "selectgroupsAdd".concat(i);
